@@ -6,14 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2017/11 | Hexo</title>
+  <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
+  <meta name="description" content="javascript之this篇开门见山，下面我们直入正题，为大家介绍一下关于javascript的this这一指向，首先我想用一句话来概括js中关于this的指向问题：==this它其实既不指向函数自身也不指向函数的词法作用域，this实际上是在函数被调用时发生的绑定，它指向什么完全取决于函数在哪里被调用。== 在正常情况下，下面我们通过绑定的规则把this分为四个规则来介绍： 1、默认绑定（全">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/archives/2017/11/index.html">
+<meta property="og:url" content="http://yoursite.com/2017/11/06/javascript之this篇/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="javascript之this篇开门见山，下面我们直入正题，为大家介绍一下关于javascript的this这一指向，首先我想用一句话来概括js中关于this的指向问题：==this它其实既不指向函数自身也不指向函数的词法作用域，this实际上是在函数被调用时发生的绑定，它指向什么完全取决于函数在哪里被调用。== 在正常情况下，下面我们通过绑定的规则把this分为四个规则来介绍： 1、默认绑定（全">
+<meta property="og:updated_time" content="2017-11-06T05:39:00.425Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo">
+<meta name="twitter:description" content="javascript之this篇开门见山，下面我们直入正题，为大家介绍一下关于javascript的this这一指向，首先我想用一句话来概括js中关于this的指向问题：==this它其实既不指向函数自身也不指向函数的词法作用域，this实际上是在函数被调用时发生的绑定，它指向什么完全取决于函数在哪里被调用。== 在正常情况下，下面我们通过绑定的规则把this分为四个规则来介绍： 1、默认绑定（全">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -149,43 +153,162 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-javascript之this篇" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
+    <div class="article-entry" itemprop="articleBody">
       
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/11/06/javascript之this篇/" class="archive-article-date">
-  	<time datetime="2017-11-06T05:46:18.244Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-06</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
+        <h3 id="javascript之this篇"><a href="#javascript之this篇" class="headerlink" title="javascript之this篇"></a>javascript之this篇</h3><p>开门见山，下面我们直入正题，为大家介绍一下关于javascript的this这一指向，首先我想用一句话来概括js中关于this的指向问题：==this它其实既不指向函数自身也不指向函数的词法作用域，this实际上是在函数被调用时发生的绑定，它指向什么完全取决于函数在哪里被调用。==</p>
+<p>在正常情况下，下面我们通过绑定的规则把this分为四个规则来介绍：</p>
+<h4 id="1、默认绑定（全局上下文"><a href="#1、默认绑定（全局上下文" class="headerlink" title="1、默认绑定（全局上下文)"></a>1、默认绑定（全局上下文)</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">function foo()&#123;</div><div class="line">     //&quot;use strict&quot;;</div><div class="line">     console.log(this.a);</div><div class="line">&#125;</div><div class="line">var a = 2;</div><div class="line">foo();   // 2</div></pre></td></tr></table></figure>
+<h4 id="2、隐式绑定-作为对象的方法调用，闭包"><a href="#2、隐式绑定-作为对象的方法调用，闭包" class="headerlink" title="2、隐式绑定(作为对象的方法调用，闭包)"></a>2、隐式绑定(作为对象的方法调用，闭包)</h4><h5 id="A、作为对象的方法调用"><a href="#A、作为对象的方法调用" class="headerlink" title="A、作为对象的方法调用"></a>A、作为对象的方法调用</h5><p>demo1:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">function foo()&#123;</div><div class="line">     console.log( this.a );</div><div class="line">&#125;</div><div class="line">var obj = &#123;</div><div class="line">     a: 2,</div><div class="line">     foo: foo</div><div class="line">&#125;;</div><div class="line">obj.foo();  //2</div></pre></td></tr></table></figure>
+<p>demo2:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">function foo()&#123;</div><div class="line">     console.log( this.a );</div><div class="line">&#125;</div><div class="line">var obj2 = &#123;</div><div class="line">     a: 42,</div><div class="line">     foo: foo</div><div class="line">&#125;;</div><div class="line">var obj1 = &#123;</div><div class="line">     a:2,</div><div class="line">     obj2: obj2</div><div class="line">&#125;;</div><div class="line"></div><div class="line">obj1.obj2.foo();  //??</div></pre></td></tr></table></figure>
+<p><strong>注：对象属性引用链中只有上一层或者说最后一层在调用的位置中起作用</strong></p>
+<h5 id="B、闭包（内部函数）"><a href="#B、闭包（内部函数）" class="headerlink" title="B、闭包（内部函数）"></a>B、闭包（内部函数）</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">var a = &apos;foo&apos;;</div><div class="line">var person = &#123;</div><div class="line">     a: &apos;bar&apos;,</div><div class="line">     hello: function( sth )&#123;</div><div class="line">         var sayHello = function() &#123;</div><div class="line">               console.log( this.a +&apos;says&apos; +sth );</div><div class="line">          &#125;;</div><div class="line">          sayHello(sth);</div><div class="line">     &#125;</div><div class="line">&#125;</div><div class="line">person.hello(&apos;hello&apos;);  //??</div></pre></td></tr></table></figure>
+<p>这里this的指向跟闭包没有关系，闭包针对于变量来说的。sayHello function is being invoked as a standalone function not attached to any object, and this will refer to the global object.</p>
+<h5 id="C、隐式丢失"><a href="#C、隐式丢失" class="headerlink" title="C、隐式丢失"></a>C、隐式丢失</h5><h6 id="a、闭包（如上）"><a href="#a、闭包（如上）" class="headerlink" title="a、闭包（如上）"></a>a、闭包（如上）</h6><h6 id="b、传入回调函数时"><a href="#b、传入回调函数时" class="headerlink" title="b、传入回调函数时"></a>b、传入回调函数时</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">function foo()&#123;</div><div class="line">     console.log( this.a );</div><div class="line">&#125;</div><div class="line">function doFoo( fn )&#123;</div><div class="line">     //fn其实引用的是foo</div><div class="line">     fn();  //&lt;-调用位置</div><div class="line">&#125;</div><div class="line">var obj = &#123;</div><div class="line">     a: 2,</div><div class="line">     foo: foo</div><div class="line">&#125;;</div><div class="line">var a = &quot;global a&quot;;</div><div class="line">doFoo( obj.foo );  //??</div><div class="line">//setTimeout(obj.foo,100); //??</div></pre></td></tr></table></figure>
+<p><strong>注：参数传递其实是一种隐式赋值，所以我们传入函数时也会被隐式赋值，因此应用了默认绑定，就是绑定到全局中去。</strong></p>
+<h4 id="3、显式绑定-使用call与apply设置this"><a href="#3、显式绑定-使用call与apply设置this" class="headerlink" title="3、显式绑定(使用call与apply设置this)"></a>3、显式绑定(使用call与apply设置this)</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">function foo()&#123;</div><div class="line">     console.log( this.a );</div><div class="line">&#125;</div><div class="line">var obj = &#123;</div><div class="line">     a: 2</div><div class="line">&#125;;</div><div class="line">foo.call( obj ); //??</div></pre></td></tr></table></figure>
+<h5 id="A、硬绑定"><a href="#A、硬绑定" class="headerlink" title="A、硬绑定"></a>A、硬绑定</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">function foo()&#123;</div><div class="line">     console.log( this.a );</div><div class="line">&#125;</div><div class="line">var obj = &#123;</div><div class="line">     a:2</div><div class="line">&#125;;</div><div class="line">var bar = function()&#123;</div><div class="line">     foo.call( obj );</div><div class="line">&#125;;</div><div class="line">bar();  //??</div><div class="line">setTimeout( bar,100 );  //??</div><div class="line"></div><div class="line">//硬绑定的bar可能or不可能再修改它的this呢？？？</div><div class="line">bar.call( window ); //??</div></pre></td></tr></table></figure>
+<p><strong>注：Function.prototype.bind有兴趣可以自己去了解，意思差不多</strong></p>
+<h4 id="4、new绑定"><a href="#4、new绑定" class="headerlink" title="4、new绑定"></a>4、new绑定</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">function foo(a)&#123;</div><div class="line">  this.a = a;</div><div class="line">&#125;</div><div class="line">var bar= new foo(2);</div><div class="line">console.log(bar.a);  //??</div></pre></td></tr></table></figure>
+<p>以上四种就是正常情况下的四个判断规则啦，那么有正常的那也就有所例外嘛？是的，你没猜错，真的有例外。</p>
+<h5 id="1、当在默认使用call-apply-bind时把null或者undefined作为this的绑定对象传入呢？？"><a href="#1、当在默认使用call-apply-bind时把null或者undefined作为this的绑定对象传入呢？？" class="headerlink" title="1、当在默认使用call,apply,bind时把null或者undefined作为this的绑定对象传入呢？？"></a>1、当在默认使用call,apply,bind时把null或者undefined作为this的绑定对象传入呢？？</h5><h5 id="2、间接引用？"><a href="#2、间接引用？" class="headerlink" title="2、间接引用？"></a>2、间接引用？</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">function foo()&#123;</div><div class="line">     console.log( this.a );</div><div class="line">&#125;</div><div class="line">var a =2;</div><div class="line">var o = &#123; a: 3,foo: foo &#125;;</div><div class="line">var p = &#123; a: 4 &#125;;</div><div class="line">o.foo();  //3</div><div class="line">(p.foo() = o.foo)();  //????</div></pre></td></tr></table></figure>
+<h5 id="3、软绑定？"><a href="#3、软绑定？" class="headerlink" title="3、软绑定？"></a>3、软绑定？</h5><p>哦，对了，还有一个差点忘记了，就是关于ES6的箭头函数啦。<br>想必聪明机智的你看完下面的这两个函数就会知道我要讲什么了。<br>es6 demo:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">function foo()&#123;</div><div class="line">     setTimeout( () =&gt; &#123;</div><div class="line">          //这里的this在词法上继承自foo();</div><div class="line">          console.log( this.a );</div><div class="line">     &#125;,100);</div><div class="line">&#125;</div><div class="line">var obj = &#123;</div><div class="line">     a: 2</div><div class="line">&#125;;</div><div class="line">foo.call( obj ); //??</div></pre></td></tr></table></figure>
+<p>非es6 demo:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">function foo()&#123;</div><div class="line">     var self = this;</div><div class="line">        setTimeout(function()&#123;</div><div class="line">          console.log(self.a);</div><div class="line">     &#125;,100)</div><div class="line">&#125;</div><div class="line">var obj = &#123;</div><div class="line">     a: 2</div><div class="line">&#125;;</div><div class="line">foo.call( obj ); //??</div></pre></td></tr></table></figure>
+<h4 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h4><p> 以下是根据正常情况下按照优先级排列的四条规则来判断this的绑定对象：</p>
+<ul>
+<li>1、由new调用？绑定到新建的对象</li>
+<li>2、由call或者apply(或者bind)调用？绑定到指定的对象</li>
+<li>3、由上下文对象调用？绑定到那个上下文对象（就近原则）</li>
+<li>4、默认：在严格模式下绑定到undefined,否则绑定到全局对象</li>
+<li>还有一些调用可能在无意中使用了默认绑定规则；</li>
+<li>还有就是es6的箭头函数并不会使用以上四条规则，而是根据当前的词法作用域来决定this,具体来说，就是会继承外层函数调用的this绑定。</li>
+</ul>
+<p>第一次整理这种关于技术的文章，各位将就着看，欢迎批评指正哦！附上美女高清图一张。。（文件过大，无法预览）</p>
 
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/11/06/javascript之this篇/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-  
-    </div></section>
+
   
 
-    
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+  
+  
+  
+
+  
+
+  
+
+  
 
 
           </div>
@@ -208,8 +331,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

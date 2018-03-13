@@ -9,12 +9,13 @@
   <title>javascript之this篇 | call me 王洁</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="开门见山，下面我们直入正题，为大家介绍一下关于javascript的this这一指向，首先我想用一句话来概括js中关于this的指向问题：==this它其实既不指向函数自身也不指向函数的词法作用域，this实际上是在函数被调用时发生的绑定，它指向什么完全取决于函数在哪里被调用。== 在正常情况下，下面我们通过绑定的规则把this分为四个规则来介绍： 1、默认绑定（全局上下文)123456funct">
+<meta name="keywords" content="js基础">
 <meta property="og:type" content="article">
 <meta property="og:title" content="javascript之this篇">
 <meta property="og:url" content="http://yoursite.com/2017/11/12/201711/javascript之this篇/index.html">
 <meta property="og:site_name" content="call me 王洁">
 <meta property="og:description" content="开门见山，下面我们直入正题，为大家介绍一下关于javascript的this这一指向，首先我想用一句话来概括js中关于this的指向问题：==this它其实既不指向函数自身也不指向函数的词法作用域，this实际上是在函数被调用时发生的绑定，它指向什么完全取决于函数在哪里被调用。== 在正常情况下，下面我们通过绑定的规则把this分为四个规则来介绍： 1、默认绑定（全局上下文)123456funct">
-<meta property="og:updated_time" content="2017-11-16T00:05:22.000Z">
+<meta property="og:updated_time" content="2018-03-13T23:23:22.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="javascript之this篇">
 <meta name="twitter:description" content="开门见山，下面我们直入正题，为大家介绍一下关于javascript的this这一指向，首先我想用一句话来概括js中关于this的指向问题：==this它其实既不指向函数自身也不指向函数的词法作用域，this实际上是在函数被调用时发生的绑定，它指向什么完全取决于函数在哪里被调用。== 在正常情况下，下面我们通过绑定的规则把this分为四个规则来介绍： 1、默认绑定（全局上下文)123456funct">
@@ -240,6 +241,17 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">js基础</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -434,6 +446,18 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
             <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
           </label>
           <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">其它</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">http</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">js基础</a>
+              </li>
             
             <div class="clearfix"></div>
           </ul>

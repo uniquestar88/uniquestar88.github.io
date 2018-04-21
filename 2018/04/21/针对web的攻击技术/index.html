@@ -6,17 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2018/3 | call me 王洁</title>
+  <title>针对 web 的攻击技术 | call me 王洁</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="没什么擅长的，但是喜欢观察人，小心点哦，哈哈。。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="call me 王洁">
-<meta property="og:url" content="http://yoursite.com/archives/2018/03/index.html">
+  <meta name="description" content="前言 与最初的设计相比，现今的 Web 网站应用的 HTTP 协议的使用方式已经发生翻天覆地的变化。几乎现金所以的 Web 网站都会使用会话的（ session ）管理、加密处理等安全性方面的功能，而 HTTP 协议内不具备这些功能。 HTTP 就是一个通用的单纯协议机制。因此它具备较多优势，但是在安全性方面则显劣势。  攻击目标简单的 HTTP 协议本身并不存在安全性问题，因此协议本身几乎不会称">
+<meta name="keywords" content="http">
+<meta property="og:type" content="article">
+<meta property="og:title" content="针对 web 的攻击技术">
+<meta property="og:url" content="http://yoursite.com/2018/04/21/针对web的攻击技术/index.html">
 <meta property="og:site_name" content="call me 王洁">
-<meta property="og:description" content="没什么擅长的，但是喜欢观察人，小心点哦，哈哈。。">
+<meta property="og:description" content="前言 与最初的设计相比，现今的 Web 网站应用的 HTTP 协议的使用方式已经发生翻天覆地的变化。几乎现金所以的 Web 网站都会使用会话的（ session ）管理、加密处理等安全性方面的功能，而 HTTP 协议内不具备这些功能。 HTTP 就是一个通用的单纯协议机制。因此它具备较多优势，但是在安全性方面则显劣势。  攻击目标简单的 HTTP 协议本身并不存在安全性问题，因此协议本身几乎不会称">
+<meta property="og:updated_time" content="2018-04-21T08:42:02.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="call me 王洁">
-<meta name="twitter:description" content="没什么擅长的，但是喜欢观察人，小心点哦，哈哈。。">
+<meta name="twitter:title" content="针对 web 的攻击技术">
+<meta name="twitter:description" content="前言 与最初的设计相比，现今的 Web 网站应用的 HTTP 协议的使用方式已经发生翻天覆地的变化。几乎现金所以的 Web 网站都会使用会话的（ session ）管理、加密处理等安全性方面的功能，而 HTTP 协议内不具备这些功能。 HTTP 就是一个通用的单纯协议机制。因此它具备较多优势，但是在安全性方面则显劣势。  攻击目标简单的 HTTP 协议本身并不存在安全性问题，因此协议本身几乎不会称">
   
     <link rel="alternative" href="/atom.xml" title="call me 王洁" type="application/atom+xml">
   
@@ -148,60 +150,197 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-针对web的攻击技术" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/03/14/原生App与javascript交互/" class="archive-article-date">
-  	<time datetime="2018-03-13T23:25:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-14</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/14/原生App与javascript交互/">原生App与javascript交互</a>
+    <h1 class="article-title" itemprop="name">
+      针对 web 的攻击技术
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2018/04/21/针对web的攻击技术/" class="archive-article-date">
+  	<time datetime="2018-04-21T08:00:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-21</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p>与最初的设计相比，现今的 Web 网站应用的 HTTP 协议的使用方式已经发生翻天覆地的变化。几乎现金所以的 Web 网站都会使用会话的（ session ）管理、加密处理等安全性方面的功能，而 HTTP 协议内不具备这些功能。 HTTP 就是一个通用的单纯协议机制。因此它具备较多优势，但是在安全性方面则显劣势。 </p>
+<h3 id="攻击目标"><a href="#攻击目标" class="headerlink" title="攻击目标"></a>攻击目标</h3><p>简单的 HTTP 协议本身并不存在安全性问题，因此协议本身几乎不会称为攻击对象。应用 HTTP 协议的服务器和客户端，以及运行在服务器上的 Web 应用等资源才是攻击目标。目前，来自互联网的攻击大多是冲着 Web 站点来的，它们大多把 Web 应用作为攻击目标。</p>
+<h3 id="在客户端即可篡改请求"><a href="#在客户端即可篡改请求" class="headerlink" title="在客户端即可篡改请求"></a>在客户端即可篡改请求</h3><p>在 Web 应用中，从浏览器那接收到的 HTTP 请求的全部内容，都可以在客户端自由地变更、篡改。<br>在HTTP请求报文内加载攻击代码，就能发起对Web应用的攻击。通过URL查询字段或表单、HTTP首部、Cookie等途径把攻击代码传入，若这时Web应用存在安全漏洞，那内部信息就会遭到窃取，或被攻击者拿到管理权限。</p>
+<h3 id="针对-Web-应用的攻击模式"><a href="#针对-Web-应用的攻击模式" class="headerlink" title="针对 Web 应用的攻击模式"></a>针对 Web 应用的攻击模式</h3><p>针对 Web 应用的攻击模式有以下两种：  </p>
+<ul>
+<li><strong>主动攻击</strong></li>
+<li><strong>被动攻击</strong>  <h4 id="1-以服务器为目标的主动攻击"><a href="#1-以服务器为目标的主动攻击" class="headerlink" title="1.  以服务器为目标的主动攻击"></a>1.  以服务器为目标的主动攻击</h4>主动攻击( active attack )是指攻击者通过直接访问Web应用，把攻击代码传入的攻击模式。由于该模式是直接针对服务器上的资源进行攻击，因此攻击者需要能够访问到那些资源。  </li>
+</ul>
+</blockquote>
+<p>主动攻击模式里具有代表性的攻击是SQL注入攻击和OS命令注入攻击</p>
+<h4 id="2-以服务器为目标的被动攻击"><a href="#2-以服务器为目标的被动攻击" class="headerlink" title="2. 以服务器为目标的被动攻击"></a>2. 以服务器为目标的被动攻击</h4><p>被动攻击(passive attack)是指利用圈套策略执行攻击代码的攻击模式。在被动攻击过程中，攻击者不直接对目标Web应用访问发起攻击。 </p>
+<p>被动攻击通常的攻击模式如下所示：</p>
+<p>步骤1：攻击者诱使用户触发已设置好的陷阱，而陷阱会启动发送已嵌入攻击代码的HTTP请求；  </p>
+<p>步骤2：当用户不知不觉中招之后，用户的浏览器或邮件客户端就会触发这个陷阱；  </p>
+<p>步骤3：中招后的用户浏览器会把含有攻击代码的HTTP请求发送给作为攻击目标的Web应用，运行攻击代码；  </p>
+<p>步骤4：执行完攻击代码，存在安全漏洞的Web应用会成为攻击者的跳板，可能导致用户所持的Cookie等个人信息被窃取，登录状态中的用户权限遭恶意滥用等后果。  </p>
+<p>被动攻击模式中具有代表性的攻击是跨站脚本攻击和跨站点请求伪造。  </p>
+<h5 id="2-1-利用用户的身份攻击企业内部网络"><a href="#2-1-利用用户的身份攻击企业内部网络" class="headerlink" title="2.1 利用用户的身份攻击企业内部网络"></a>2.1 利用用户的身份攻击企业内部网络</h5><p>利用被动攻击，可发起对原本从互联网上无法直接访问的企业内网等网络的攻击。只要用户踏入攻击者预先设好的陷阱，在用户能够访问到的网络范围内，即使是企业内网也同样会受到攻击。  </p>
+<p>很多企业内网依然可以连接到互联网上，访问Web网站，或接收互联网发来的邮件。这样就可能给攻击者以可乘之机，诱导用户触发陷阱后对企业内网发动攻击。  </p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>很意外就这样来到来总结吧，是的，以上只是简单介绍了针对 Web 的攻击技术，其实后面还有很多由于各种原因引发的安全漏洞，比如上文提到的跨站脚本攻击啊，还有 SQL 注入攻击、OS命令注入攻击、会话劫持、点击劫持、 DoS攻击等等，欲知详情，请听下回分解～～～</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢大爷赏脸，小的会继续努力的^_^<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/alipay.png">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/wechat.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">其它</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">http</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2018/04/21/针对web的攻击技术/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2018/03/14/原生App与javascript交互/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">原生App与javascript交互</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -224,8 +363,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

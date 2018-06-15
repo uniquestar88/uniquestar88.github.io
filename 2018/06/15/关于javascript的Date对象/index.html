@@ -6,17 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2017 | call me 王洁</title>
+  <title>关于javascript的Date对象 | call me 王洁</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="没什么擅长的，但是喜欢观察人，小心点哦，哈哈。。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="call me 王洁">
-<meta property="og:url" content="http://yoursite.com/archives/2017/index.html">
+  <meta name="description" content="前言最近在和app客户端对接一些功能，使用new Date转换把时间戳转换后在不同的手机得到点数不一样的问题，分别出现CDT、CST，一脸懵逼情况下，我决定趁此机会好好把这几个概念理一下。   Date对象主要方法123456789101112131415161718192021222324252627282930313233// 该方法传递的是国际标准时间now = new Date(i">
+<meta name="keywords" content="js基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于javascript的Date对象">
+<meta property="og:url" content="http://yoursite.com/2018/06/15/关于javascript的Date对象/index.html">
 <meta property="og:site_name" content="call me 王洁">
-<meta property="og:description" content="没什么擅长的，但是喜欢观察人，小心点哦，哈哈。。">
+<meta property="og:description" content="前言最近在和app客户端对接一些功能，使用new Date转换把时间戳转换后在不同的手机得到点数不一样的问题，分别出现CDT、CST，一脸懵逼情况下，我决定趁此机会好好把这几个概念理一下。   Date对象主要方法123456789101112131415161718192021222324252627282930313233// 该方法传递的是国际标准时间now = new Date(i">
+<meta property="og:updated_time" content="2018-06-15T00:01:57.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="call me 王洁">
-<meta name="twitter:description" content="没什么擅长的，但是喜欢观察人，小心点哦，哈哈。。">
+<meta name="twitter:title" content="关于javascript的Date对象">
+<meta name="twitter:description" content="前言最近在和app客户端对接一些功能，使用new Date转换把时间戳转换后在不同的手机得到点数不一样的问题，分别出现CDT、CST，一脸懵逼情况下，我决定趁此机会好好把这几个概念理一下。   Date对象主要方法123456789101112131415161718192021222324252627282930313233// 该方法传递的是国际标准时间now = new Date(i">
   
     <link rel="alternative" href="/atom.xml" title="call me 王洁" type="application/atom+xml">
   
@@ -148,74 +150,68 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-关于javascript的Date对象" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/12/13/http之http状态码/" class="archive-article-date">
-  	<time datetime="2017-12-13T00:25:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-13</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/12/13/http之http状态码/">http之http状态码</a>
+    <h1 class="article-title" itemprop="name">
+      关于javascript的Date对象
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">http</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/11/16/javascript之事件篇/" class="archive-article-date">
-  	<time datetime="2017-11-16T00:02:26.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-16</time>
+        
+        <a href="/2018/06/15/关于javascript的Date对象/" class="archive-article-date">
+  	<time datetime="2018-06-14T23:25:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-15</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/11/16/javascript之事件篇/">javascript之事件篇</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>最近在和app客户端对接一些功能，使用new Date转换把时间戳转换后在不同的手机得到点数不一样的问题，分别出现CDT、CST，一脸懵逼情况下，我决定趁此机会好好把这几个概念理一下。  </p>
+<h3 id="Date对象主要方法"><a href="#Date对象主要方法" class="headerlink" title="Date对象主要方法"></a>Date对象主要方法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">// 该方法传递的是国际标准时间</span><br><span class="line">now = new Date(int) </span><br><span class="line"></span><br><span class="line">// 该方法返回的也是国际标准时间戳</span><br><span class="line">getTime()	返回 国际时间 1970 年 1 月 1 日 0点至今的毫秒数。（也就是我们东八区的1970 年 1 月 1 日 8点至今的毫秒数）</span><br><span class="line"></span><br><span class="line">// 以下方法返回的是本地时间</span><br><span class="line">getDate()	从 Date 对象返回一个月中的某一天 (1 ~ 31)。本地时间</span><br><span class="line">getDay()	从 Date 对象返回一周中的某一天 (0 ~ 6)。本地时间</span><br><span class="line">getMonth()	从 Date 对象返回月份 (0 ~ 11)。本地时间</span><br><span class="line">getFullYear()	从 Date 对象以四位数字返回年份。本地时间</span><br><span class="line">getYear()	请使用 getFullYear() 方法代替。本地时间</span><br><span class="line">getHours()	返回 Date 对象的小时 (0 ~ 23)。本地时间</span><br><span class="line">getMinutes()	返回 Date 对象的分钟 (0 ~ 59)。本地时间</span><br><span class="line">getSeconds()	返回 Date 对象的秒数 (0 ~ 59)。本地时间</span><br><span class="line">getMilliseconds() 返回 Date 对象的毫秒(0 ~ 999)。本地时间</span><br><span class="line"></span><br><span class="line">// 以下方法返回的是国际标准时间</span><br><span class="line">getUTCDate()	根据世界时从 Date 对象返回月中的一天 (1 ~ 31)。国际标准时间</span><br><span class="line">getUTCDay()	根据世界时从 Date 对象返回周中的一天 (0 ~ 6)。国际标准时间</span><br><span class="line">getUTCMonth()	根据世界时从 Date 对象返回月份 (0 ~ 11)。国际标准时间</span><br><span class="line">getUTCFullYear()	根据世界时从 Date 对象返回四位数的年份。国际标准时间</span><br><span class="line">getUTCHours()	根据世界时返回 Date 对象的小时 (0 ~ 23)。国际标准时间</span><br><span class="line">getUTCMinutes()	根据世界时返回 Date 对象的分钟 (0 ~ 59)。国际标准时间</span><br><span class="line">getUTCSeconds()	根据世界时返回 Date 对象的秒钟 (0 ~ 59)。国际标准时间</span><br><span class="line">getUTCMilliseconds() 根据世界时返回 Date 对象的毫秒(0 ~ 999)。国际标准时间</span><br><span class="line"></span><br><span class="line">// 以下两个方法返回本地时间的字符串</span><br><span class="line">toLocaleString()</span><br><span class="line">toString()</span><br><span class="line"></span><br><span class="line">// 返回国际标准时间的字符串</span><br><span class="line">toUTCString()</span><br></pre></td></tr></table></figure>
+<p>未完待续，有bug要去修…</p>
 
-        <div class="article-info info-on-right">
-          
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢大爷赏脸，小的会继续努力的^_^<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/alipay.png">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/wechat.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -227,57 +223,106 @@
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2018/06/15/关于javascript的Date对象/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/11/12/201711/javascript之this篇/" class="archive-article-date">
-  	<time datetime="2017-11-12T00:02:26.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-12</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2018/05/13/javascript之函数作用域和块作用域/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">javascript之函数作用域和块作用域</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/11/12/201711/javascript之this篇/">javascript之this篇</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">js基础</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
+
+  
 
 
           </div>
@@ -300,8 +345,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

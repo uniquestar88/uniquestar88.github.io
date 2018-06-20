@@ -150,19 +150,19 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-关于javascript的Date对象" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-关于javascript的Date踩过的坑" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/06/15/关于javascript的Date对象/">关于javascript的Date对象(上)</a>
+      <a class="article-title" href="/2018/06/15/关于javascript的Date踩过的坑/">关于javascript的Date踩过的坑</a>
     </h1>
   
 
         
-        <a href="/2018/06/15/关于javascript的Date对象/" class="archive-article-date">
+        <a href="/2018/06/15/关于javascript的Date踩过的坑/" class="archive-article-date">
   	<time datetime="2018-06-14T23:25:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-15</time>
 </a>
         
@@ -178,10 +178,10 @@
 <h4 id="夏时制"><a href="#夏时制" class="headerlink" title="夏时制"></a>夏时制</h4><blockquote>
 <p>夏时制，夏时令（Daylight Saving Time：DST），又称“日光节约时制”和“夏令时间”，是一种为节约能源而人为规定地方时间的制度，在这一制度实行期间所采用的统一时间称为“夏令时间”。一般在天亮早的夏季人为将时间调快一小时，可以使人早起早睡，减少照明量，以充分利用光照资源，从而节约照明用电。各个采纳夏时制的国家具体规定不同。目前全世界有近110个国家每年要实行夏令时。<br>中国也曾实行过夏时制，时间为1986-1991。更多关于夏时制的知识请参考<a href="https://baike.baidu.com/item/%E5%A4%8F%E4%BB%A4%E6%97%B6/1809579?fr=aladdin" target="_blank" rel="external">夏时制</a></p>
 </blockquote>
-<h4 id="夏令时导致的问题以及解决方案"><a href="#夏令时导致的问题以及解决方案" class="headerlink" title="夏令时导致的问题以及解决方案"></a>夏令时导致的问题以及解决方案</h4><h5 id="问题1、"><a href="#问题1、" class="headerlink" title="问题1、"></a>问题1、</h5><p>从后端获取时间戳，在前端用JS格式化显示。发现再Chrome和sarafi下，对特定的时间段（1986年至1991年），的处理方式并不相同。举个🌰：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">let timestamp = 676958400000; </span><br><span class="line">// chrome下  </span><br><span class="line">new Date(timestamp) // Sat Jun 15 1991 13:00:00 GMT+0900 (CDT)  </span><br><span class="line">// safari下</span><br><span class="line">new Date(timestamp) // Sat Jun 15 1991 12:00:00 GMT+0800 (CST)</span><br></pre></td></tr></table></figure></p>
+<h4 id="夏令时导致的问题以及解决方案"><a href="#夏令时导致的问题以及解决方案" class="headerlink" title="夏令时导致的问题以及解决方案"></a>夏令时导致的问题以及解决方案</h4><h5 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h5><p>从后端获取时间戳，在前端用JS格式化显示。发现再Chrome和sarafi下，对特定的时间段（1986年至1991年），的处理方式并不相同。举个🌰：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">let timestamp = 676958400000; </span><br><span class="line">// chrome下  </span><br><span class="line">new Date(timestamp) // Sat Jun 15 1991 13:00:00 GMT+0900 (CDT)  </span><br><span class="line">// safari下</span><br><span class="line">new Date(timestamp) // Sat Jun 15 1991 12:00:00 GMT+0800 (CST)</span><br></pre></td></tr></table></figure></p>
 <h5 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h5><h5 id="1、尽量避免从后端或者客户端获取时间戳，让他们处理返回格式化后的日期字符串，如1991-06-01-15-00-00"><a href="#1、尽量避免从后端或者客户端获取时间戳，让他们处理返回格式化后的日期字符串，如1991-06-01-15-00-00" class="headerlink" title="1、尽量避免从后端或者客户端获取时间戳，让他们处理返回格式化后的日期字符串，如1991-06-01 15:00:00;"></a>1、尽量避免从后端或者客户端获取时间戳，让他们处理返回格式化后的日期字符串，如1991-06-01 15:00:00;</h5><h5 id="2、判断时区是否使用夏令时"><a href="#2、判断时区是否使用夏令时" class="headerlink" title="2、判断时区是否使用夏令时"></a>2、判断时区是否使用夏令时</h5><p>可用getTimezoneOffset()方法判断时区使用的是否是夏令时。实现这一点需要创建任意年份的1月1日的日期,然后创建该年份的7月1日的日期,比较时区偏移量。如果分钟数不等,说明该时区使用的是夏令时,如果相等,则该时区使用的不是夏令时。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var d1 = new Date(1991,1,1); </span><br><span class="line">var d2 = new Date(1991,7,1); </span><br><span class="line">var isDST = d1.getTimezoneOffset != d2.getTimezoneOffset();</span><br></pre></td></tr></table></figure></p>
-<p>个人认为方案一更方便合理，方案二的话只是一种思路，具体还有待扩展。</p>
-<p></p>
+<p>个人认为方案一更方便合理，方案二的话只是一种思路，具体还有待扩展。  </p>
+<h4 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h4><p>具体关于javascript的Date对象还是博大精深，当然也有各种各样的插件库，比如<a href="https://momentjs.com/docs/" target="_blank" rel="external">moment.js</a>、<a href="http://www.datejs.com/" target="_blank" rel="external">date.js</a>有兴趣的小伙伴可以了解下。</p>
 
       
 
@@ -205,7 +205,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/06/15/关于javascript的Date对象/">展开全文 >></a>
+          <a class="article-more-a" href="/2018/06/15/关于javascript的Date踩过的坑/">展开全文 >></a>
         </p>
       
 

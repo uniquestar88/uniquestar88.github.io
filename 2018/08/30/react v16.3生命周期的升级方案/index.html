@@ -15,13 +15,14 @@
 <meta property="og:url" content="http://yoursite.com/2018/08/30/react v16.3生命周期的升级方案/index.html">
 <meta property="og:site_name" content="call me 王洁">
 <meta property="og:description" content="react v16做来哪些大更新 采用了称为“Fiber”的全新的内部架构。React Fiber是什么？简单来说，官方对 Fiber 的一句话解释是“React Fiber是对核心算法的一次重新实现”。通过“Fiber”，React 使得大量的计算可以被拆解分片，异步化。每执行完一段更新过程，就把控制权交还给React负责任务协调的模块，看看有没有其他紧急任务要做。从而保证了渲染的帧率，提高应用">
+<meta property="og:image" content="https://codesandbox.io/static/img/play-codesandbox.svg">
 <meta property="og:image" content="https://pic1.zhimg.com/80/v2-b03791ce97cf26c567a1b6aa30cb0ac8_hd.jpg">
 <meta property="og:image" content="https://pic3.zhimg.com/v2-09f698c70d89d72b146653ce67f79c0c_r.jpg">
-<meta property="og:updated_time" content="2018-08-30T13:29:23.000Z">
+<meta property="og:updated_time" content="2018-09-12T14:08:35.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="react v16.3生命周期的升级方案">
 <meta name="twitter:description" content="react v16做来哪些大更新 采用了称为“Fiber”的全新的内部架构。React Fiber是什么？简单来说，官方对 Fiber 的一句话解释是“React Fiber是对核心算法的一次重新实现”。通过“Fiber”，React 使得大量的计算可以被拆解分片，异步化。每执行完一段更新过程，就把控制权交还给React负责任务协调的模块，看看有没有其他紧急任务要做。从而保证了渲染的帧率，提高应用">
-<meta name="twitter:image" content="https://pic1.zhimg.com/80/v2-b03791ce97cf26c567a1b6aa30cb0ac8_hd.jpg">
+<meta name="twitter:image" content="https://codesandbox.io/static/img/play-codesandbox.svg">
   
     <link rel="alternative" href="/atom.xml" title="call me 王洁" type="application/atom+xml">
   
@@ -193,7 +194,8 @@
 </ul>
 <h5 id="废弃后升级方案"><a href="#废弃后升级方案" class="headerlink" title="废弃后升级方案"></a>废弃后升级方案</h5><h6 id="componentWillMount"><a href="#componentWillMount" class="headerlink" title="componentWillMount"></a>componentWillMount</h6><p><strong>首页无数据白屏</strong><br>在 React 应用中，许多开发者为了避免第一次渲染时页面因为没有获取到异步数据导致的白屏，而将数据请求部分的代码放在了 componentWillMount 中，希望可以避免白屏并提早异步请求的发送时间。但是要知道，在componentWillMount里发起AJAX，不管多快得到结果也赶不上首次render，而且componentWillMount在服务器端渲染也会被调用到，这样的IO操作放在componentDidMount里更合适。<br><strong>事件订阅</strong><br>另一个常见的用例是在 componentWillMount 中订阅事件，并在 componentWillUnmount 中取消掉相应的事件订阅。但事实上 React 并不能够保证在 componentWillMount 被调用后，同一组件的 componentWillUnmount 也一定会被调用。一个当前版本的例子如服务端渲染时，componentWillUnmount 是不会在服务端被调用的，所以在 componentWillMount 中订阅事件就会直接导致服务端的内存泄漏。另一方面，在未来 React 开启异步渲染模式后，在 componentWillMount 被调用之后，组件的渲染也很有可能会被其他的事务所打断，导致 componentWillUnmount 不会被调用。而 componentDidMount 就不存在这个问题，在 componentDidMount 被调用后，componentWillUnmount 一定会随后被调用到，并根据具体代码清除掉组件中存在的事件订阅。</p>
 <p><strong>升级方案</strong><br>将现有 componentWillMount 中的代码迁移至 componentDidMount 即可。  </p>
-<h6 id="componentWillReceiveProps"><a href="#componentWillReceiveProps" class="headerlink" title="componentWillReceiveProps"></a>componentWillReceiveProps</h6><p><strong>更新由 props 决定的 state 及处理特定情况下的回调</strong><br>在老版本的 React 中，如果组件自身的某个 state 跟其 props 密切相关的话，一直都没有一种很优雅的处理方式去更新 state，而是需要在 componentWillReceiveProps 中判断前后两个 props 是否相同，如果不同再将新的 props 更新到相应的 state 上去。这样做一来会破坏 state 数据的单一数据源，导致组件状态变得不可预测，另一方面也会增加组件的重绘次数。<br>新版提供了更为简洁的生命周期 getDerivedStateFromProps：</p>
+<h6 id="componentWillReceiveProps"><a href="#componentWillReceiveProps" class="headerlink" title="componentWillReceiveProps"></a>componentWillReceiveProps</h6><p><strong>更新由 props 决定的 state 及处理特定情况下的回调</strong><br>在老版本的 React 中，如果组件自身的某个 state 跟其 props 密切相关的话，一直都没有一种很优雅的处理方式去更新 state，而是需要在 componentWillReceiveProps 中判断前后两个 props 是否相同，如果不同再将新的 props 更新到相应的 state 上去。这样做一来会破坏 state 数据的单一数据源，导致组件状态变得不可预测，另一方面也会增加组件的重绘次数。<br>新版提供了更为简洁的生命周期 getDerivedStateFromProps：  </p>
+<p><a href="https://codesandbox.io/s/l4jjqy4j6l" target="_blank" rel="external"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="Edit l4jjqy4j6l"></a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">static getDerivedStateFromProps(nextProps, prevState)</span><br></pre></td></tr></table></figure>
 <p>一个简单的例子如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">// before</span><br><span class="line">componentWillReceiveProps(nextProps) &#123;</span><br><span class="line">  if (nextProps.isLogin !== this.props.isLogin) &#123;</span><br><span class="line">    this.setState(&#123; </span><br><span class="line">      isLogin: nextProps.isLogin,   </span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">  if (nextProps.isLogin) &#123;</span><br><span class="line">    this.handleClose();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// after</span><br><span class="line">static getDerivedStateFromProps(nextProps, prevState) &#123;</span><br><span class="line">  if (nextProps.isLogin !== prevState.isLogin) &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      isLogin: nextProps.isLogin,</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">  return null;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">componentDidUpdate(prevProps, prevState) &#123;</span><br><span class="line">  if (!prevState.isLogin &amp;&amp; this.props.isLogin) &#123;</span><br><span class="line">    this.handleClose();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -448,11 +450,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">http</a>
+                <a href="javascript:void(0)" class="js-tag color3">其它</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">其它</a>
+                <a href="javascript:void(0)" class="js-tag color5">http</a>
               </li>
              
               <li class="article-tag-list-item">

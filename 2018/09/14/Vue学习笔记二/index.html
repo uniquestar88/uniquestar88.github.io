@@ -6,17 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2018 | call me 王洁</title>
+  <title>Vue学习笔记二 | call me 王洁</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="没什么擅长的，但是喜欢观察人，小心点哦，哈哈。。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="call me 王洁">
-<meta property="og:url" content="http://yoursite.com/archives/2018/index.html">
+  <meta name="description" content="计算属性和侦听器1.例子举个简单🌰：1234567891011121314151617181920&amp;lt;!-- html --&amp;gt;div id=&amp;quot;example&amp;quot;&amp;gt;  &amp;lt;p&amp;gt;Original message: &amp;quot;&amp;#123;&amp;#123; message &amp;#125;&amp;#125;&amp;quot;&amp;lt;/p&amp;gt;  &amp;lt;p&amp;gt;Comput">
+<meta name="keywords" content="其它">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue学习笔记二">
+<meta property="og:url" content="http://yoursite.com/2018/09/14/Vue学习笔记二/index.html">
 <meta property="og:site_name" content="call me 王洁">
-<meta property="og:description" content="没什么擅长的，但是喜欢观察人，小心点哦，哈哈。。">
+<meta property="og:description" content="计算属性和侦听器1.例子举个简单🌰：1234567891011121314151617181920&amp;lt;!-- html --&amp;gt;div id=&amp;quot;example&amp;quot;&amp;gt;  &amp;lt;p&amp;gt;Original message: &amp;quot;&amp;#123;&amp;#123; message &amp;#125;&amp;#125;&amp;quot;&amp;lt;/p&amp;gt;  &amp;lt;p&amp;gt;Comput">
+<meta property="og:updated_time" content="2018-10-28T16:44:43.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="call me 王洁">
-<meta name="twitter:description" content="没什么擅长的，但是喜欢观察人，小心点哦，哈哈。。">
+<meta name="twitter:title" content="Vue学习笔记二">
+<meta name="twitter:description" content="计算属性和侦听器1.例子举个简单🌰：1234567891011121314151617181920&amp;lt;!-- html --&amp;gt;div id=&amp;quot;example&amp;quot;&amp;gt;  &amp;lt;p&amp;gt;Original message: &amp;quot;&amp;#123;&amp;#123; message &amp;#125;&amp;#125;&amp;quot;&amp;lt;/p&amp;gt;  &amp;lt;p&amp;gt;Comput">
   
     <link rel="alternative" href="/atom.xml" title="call me 王洁" type="application/atom+xml">
   
@@ -148,74 +150,84 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-Vue学习笔记二" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/10/16/Vue学习笔记三/" class="archive-article-date">
-  	<time datetime="2018-10-16T01:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-10-16</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/10/16/Vue学习笔记三/">Vue学习笔记三</a>
+    <h1 class="article-title" itemprop="name">
+      Vue学习笔记二
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">其它</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/09/14/Vue学习笔记二/" class="archive-article-date">
+        
+        <a href="/2018/09/14/Vue学习笔记二/" class="archive-article-date">
   	<time datetime="2018-09-14T01:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-14</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/09/14/Vue学习笔记二/">Vue学习笔记二</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="计算属性和侦听器"><a href="#计算属性和侦听器" class="headerlink" title="计算属性和侦听器"></a>计算属性和侦听器</h3><h4 id="1-例子"><a href="#1-例子" class="headerlink" title="1.例子"></a>1.例子</h4><p>举个简单🌰：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- html --&gt;</span><br><span class="line">div id=&quot;example&quot;&gt;</span><br><span class="line">  &lt;p&gt;Original message: &quot;&#123;&#123; message &#125;&#125;&quot;&lt;/p&gt;</span><br><span class="line">  &lt;p&gt;Computed reversed message: &quot;&#123;&#123; reversedMessage &#125;&#125;&quot;&lt;/p&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- js --&gt;</span><br><span class="line">var vm = new Vue(&#123;</span><br><span class="line">  el: &apos;#example&apos;,</span><br><span class="line">  data: &#123;</span><br><span class="line">    message: &apos;Hello&apos;</span><br><span class="line">  &#125;,</span><br><span class="line">  computed: &#123;</span><br><span class="line">    // 计算属性的 getter</span><br><span class="line">    reversedMessage: function () &#123;</span><br><span class="line">      // `this` 指向 vm 实例</span><br><span class="line">      return this.message.split(&apos;&apos;).reverse().join(&apos;&apos;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>上面的例子中，我们声明了一个计算属性 reversedMessage。我们提供的函数将用作属性 vm.reversedMessage 的 getter 函数，这里是想要显示变量 message 的翻转字符串， vm.reversedMessage 的值始终取决于 vm.message 的值。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">console.log(vm.reversedMessage) // =&gt; &apos;olleH&apos;</span><br><span class="line">vm.message = &apos;Goodbye&apos;</span><br><span class="line">console.log(vm.reversedMessage) // =&gt; &apos;eybdooG&apos;</span><br></pre></td></tr></table></figure></p>
+<h4 id="2-计算属性vs方法"><a href="#2-计算属性vs方法" class="headerlink" title="2.计算属性vs方法"></a>2.计算属性vs方法</h4><p>我们也可以通过在表达式中调用方法来达到同样的效果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;p&gt;Reversed message: &quot;&#123;&#123; reversedMessage() &#125;&#125;&quot;&lt;/p&gt;</span><br><span class="line"></span><br><span class="line">// 在组件中</span><br><span class="line">methods: &#123;</span><br><span class="line">  reversedMessage: function () &#123;</span><br><span class="line">    return this.message.split(&apos;&apos;).reverse().join(&apos;&apos;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>我们可以将同一函数定义为一个方法而不是一个计算属性。两种方式的最终结果确实是完全相同的。然而区别在于，计算属性是基于它们的依赖进行缓存的，也就是只有在相关依赖发生改变时它们才会重新求值。而调用方法是每当触发重新渲染时，总会再次执行函数。<br>这也意味着下面的计算属性将不再更新，因为它不是响应式依赖：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">computed: &#123;</span><br><span class="line">  now: function () &#123;</span><br><span class="line">    return Date.now()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line">#### 3.计算属性vs侦听属性</span><br><span class="line">Vue 提供了一种更通用的方式来观察和响应 Vue 实例上的数据变动：侦听属性。建议使用计算属性会更简洁,可对比下面🌰：</span><br></pre></td></tr></table></figure></p>
+<div id="demo"></div>
 
-        <div class="article-info info-on-right">
-          
+<!-- 使用侦听属性 -->
+<p>var vm = new Vue({<br>  el: ‘#demo’,<br>  data: {<br>    firstName: ‘Foo’,<br>    lastName: ‘Bar’,<br>    fullName: ‘Foo Bar’<br>  },<br>  watch: {<br>    firstName: function (val) {<br>      this.fullName = val + ‘ ‘ + this.lastName<br>    },<br>    lastName: function (val) {<br>      this.fullName = this.firstName + ‘ ‘ + val<br>    }<br>  }<br>})</p>
+<!-- 使用计算属性 -->
+<p>var vm = new Vue({<br>  el: ‘#demo’,<br>  data: {<br>    firstName: ‘Foo’,<br>    lastName: ‘Bar’<br>  },<br>  computed: {<br>    fullName: function () {<br>      return this.firstName + ‘ ‘ + this.lastName<br>    }<br>  }<br>})<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 4.计算属性的setter</span><br><span class="line">计算属性默认只有getter，需要时也可以提供setter:</span><br></pre></td></tr></table></figure></p>
+<p>/ …<br>computed: {<br>  fullName: {<br>    // getter<br>    get: function () {<br>      return this.firstName + ‘ ‘ + this.lastName<br>    },<br>    // setter<br>    set: function (newValue) {<br>      var names = newValue.split(‘ ‘)<br>      this.firstName = names[0]<br>      this.lastName = names[names.length - 1]<br>    }<br>  }<br>}<br>// …<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">现在再运行 vm.fullName = &apos;John Doe&apos; 时，setter 会被调用，vm.firstName 和 vm.lastName 也会相应地被更新。</span><br><span class="line"></span><br><span class="line">#### 5.侦听器</span><br><span class="line">前文我们提到了侦听器，那什么情况下用 watch 会更合适呢？当需要在数据变化时执行异步或开销较大的操作时，这个方式是最有用的。举个🌰：</span><br></pre></td></tr></table></figure></p>
+<div id="watch-example"><br>  <p><br>    Ask a yes/no question:<br>    <input v-model="question"><br>  </p><br>  <p></p><br></div>
+
+<!-- 因为 AJAX 库和通用工具的生态已经相当丰富，Vue 核心代码没有重复 -->
+<!-- 提供这些功能以保持精简。这也可以让你自由选择自己更熟悉的工具。 -->
+<p><script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script></p>
+<p><script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script></p>
+<p><script><br>var watchExampleVM = new Vue({<br>  el: ‘#watch-example’,<br>  data: {<br>    question: ‘’,<br>    answer: ‘I cannot give you an answer until you ask a question!’<br>  },<br>  watch: {<br>    // 如果 <code>question</code> 发生改变，这个函数就会运行<br>    question: function (newQuestion, oldQuestion) {<br>      this.answer = ‘Waiting for you to stop typing…’<br>      this.debouncedGetAnswer()<br>    }<br>  },<br>  created: function () {<br>    // <code>_.debounce</code> 是一个通过 Lodash 限制操作频率的函数。<br>    // 在这个例子中，我们希望限制访问 yesno.wtf/api 的频率<br>    // AJAX 请求直到用户输入完毕才会发出。想要了解更多关于<br>    // <code>_.debounce</code> 函数 (及其近亲 <code>_.throttle</code>) 的知识，<br>    // 请参考：<a href="https://lodash.com/docs#debounce">https://lodash.com/docs#debounce</a><br>    this.debouncedGetAnswer = <em>.debounce(this.getAnswer, 500)<br>  },<br>  methods: {<br>    getAnswer: function () {<br>      if (this.question.indexOf(‘?’) === -1) {<br>        this.answer = ‘Questions usually contain a question mark. ;-)’<br>        return<br>      }<br>      this.answer = ‘Thinking…’<br>      var vm = this<br>      axios.get(‘<a href="https://yesno.wtf/api">https://yesno.wtf/api</a>‘)<br>        .then(function (response) {<br>          vm.answer = </em>.capitalize(response.data.answer)<br>        })<br>        .catch(function (error) {<br>          vm.answer = ‘Error! Could not reach the API. ‘ + error<br>        })<br>    }<br>  }<br>})<br></script><br>```</p>
+<p>在这个示例中，使用 watch 选项允许我们执行异步操作 (访问一个 API)，限制我们执行该操作的频率，并在我们得到最终结果前，设置中间状态。这些都是计算属性无法做到的。</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢大爷赏脸，小的会继续努力的^_^<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/alipay.png">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/wechat.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -227,285 +239,115 @@
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2018/09/14/Vue学习笔记二/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/08/30/react v16.3生命周期的升级方案/" class="archive-article-date">
-  	<time datetime="2018-08-30T13:30:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-30</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2018/10/16/Vue学习笔记三/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Vue学习笔记三
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/08/30/react v16.3生命周期的升级方案/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">react v16.3生命周期的升级方案</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/08/30/react v16.3生命周期的升级方案/">react v16.3生命周期的升级方案</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">其它</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/07/16/Vue学习笔记一/" class="archive-article-date">
-  	<time datetime="2018-07-16T01:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/07/16/Vue学习笔记一/">Vue学习笔记一</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">其它</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/06/15/关于javascript的Date踩过的坑/" class="archive-article-date">
-  	<time datetime="2018-06-14T23:25:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-15</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/06/15/关于javascript的Date踩过的坑/">关于javascript的Date踩过的坑</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">js基础</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/05/13/javascript之函数作用域和块作用域/" class="archive-article-date">
-  	<time datetime="2018-05-13T14:02:26.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-13</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/05/13/javascript之函数作用域和块作用域/">javascript之函数作用域和块作用域</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">js基础</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/04/21/针对web的攻击技术/" class="archive-article-date">
-  	<time datetime="2018-04-21T08:00:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-21</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/04/21/针对web的攻击技术/">针对 web 的攻击技术</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">http</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/03/14/原生App与javascript交互/" class="archive-article-date">
-  	<time datetime="2018-03-13T23:25:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-14</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/14/原生App与javascript交互/">原生App与javascript交互</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">其它</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/14/关于HTTPS/" class="archive-article-date">
-  	<time datetime="2018-01-14T13:54:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-14</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/14/关于HTTPS/">关于HTTPS</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">http</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -528,8 +370,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

@@ -150,6 +150,188 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Vue学习笔记三" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/16/Vue学习笔记三/">Vue学习笔记三</a>
+    </h1>
+  
+
+        
+        <a href="/2018/10/16/Vue学习笔记三/" class="archive-article-date">
+  	<time datetime="2018-10-16T01:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-10-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="Class-与-Style-绑定"><a href="#Class-与-Style-绑定" class="headerlink" title="Class 与 Style 绑定"></a>Class 与 Style 绑定</h3><p>将 v-bind 用于 class 和 style 时，表达式结果的类型除了字符串之外，还可以是对象或数组。  </p>
+<h4 id="绑定Html-Class"><a href="#绑定Html-Class" class="headerlink" title="绑定Html Class"></a>绑定Html Class</h4><p>你可以在对象中传入单个或者多个属性来动态切换多个 class。此外，v-bind:class 指令也可以与普通的 class 属性共存，举个🌰：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;static&quot;</span><br><span class="line">    v-bind:class=&quot;&#123; active: isActive, &apos;text-danger&apos;: hasError &#125;&quot;&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure></p>
+<p>绑定的数据对象不必内联定义在模板里。我们也可以在这里绑定一个返回对象的计算属性。这是一个常用且强大的模式，举个🌰：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;div v-bind:class=&quot;classObject&quot;&gt;&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">data: &#123;</span><br><span class="line">  isActive: true,</span><br><span class="line">  error: null</span><br><span class="line">&#125;,</span><br><span class="line">computed: &#123;</span><br><span class="line">  classObject: function () &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      active: this.isActive &amp;&amp; !this.error,</span><br><span class="line">      &apos;text-danger&apos;: this.error &amp;&amp; this.error.type === &apos;fatal&apos;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>除了对象，我们也可以把一个数组传给 v-bind:class ，以应用一个 class 列表，举个🌰：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;div v-bind:class=&quot;[activeClass, errorClass]&quot;&gt;&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">data: &#123;</span><br><span class="line">  activeClass: &apos;active&apos;,</span><br><span class="line">  errorClass: &apos;text-danger&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>渲染为： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;active text-danger&quot;&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<p>如果你也想根据条件切换列表中的 class ,可以使用三元表达式，也可以在数组语法中使用对象语法，举个🌰：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 三元表达式 --&gt;</span><br><span class="line">&lt;div v-bind:class=&quot;[isActive ? activeClass : &apos;&apos;, errorClass]&quot;&gt;&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- 数组内使用对象语法 --&gt;</span><br><span class="line">&lt;div v-bind:class=&quot;[&#123; active: isActive &#125;, errorClass]&quot;&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<h5 id="组件上的使用"><a href="#组件上的使用" class="headerlink" title="组件上的使用"></a>组件上的使用</h5><p>当在一个自定义组件上使用 class 属性时，这些类将被添加到该组件的根元素上面。这个元素上已经存在的类不会被覆盖，举个🌰：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 声明组件 --&gt;</span><br><span class="line">Vue.component(&apos;my-component&apos;, &#123;</span><br><span class="line">  template: &apos;&lt;p class=&quot;foo bar&quot;&gt;Hi&lt;/p&gt;&apos;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">&lt;!-- 使用时添加 class --&gt;</span><br><span class="line">&lt;my-component class=&quot;baz boo&quot;&gt;&lt;/my-component&gt;</span><br></pre></td></tr></table></figure></p>
+<p>HTML 将被渲染为:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;p class=&quot;foo bar baz boo&quot;&gt;Hi&lt;/p&gt;</span><br></pre></td></tr></table></figure></p>
+<p>对于带数据绑定 class 也同样适用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;my-component v-bind:class=&quot;&#123; active: isActive &#125;&quot;&gt;&lt;/my-component&gt;</span><br></pre></td></tr></table></figure></p>
+<h4 id="绑定内联样式"><a href="#绑定内联样式" class="headerlink" title="绑定内联样式"></a>绑定内联样式</h4><p>v-bind:style 的对象语法十分直观——看着非常像 CSS，但其实是一个 JavaScript 对象。CSS 属性名可以用驼峰式 (camelCase) 或短横线分隔 (kebab-case，记得用单引号括起来) 来命名：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;div v-bind:style=&quot;&#123; color: activeColor, fontSize: fontSize + &apos;px&apos; &#125;&quot;&gt;&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">data: &#123;</span><br><span class="line">  activeColor: &apos;red&apos;,</span><br><span class="line">  fontSize: 30</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&lt;!-- 也可以直接绑定到样式对象 --&gt;</span><br><span class="line">&lt;div v-bind:style=&quot;styleObject&quot;&gt;&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">data: &#123;</span><br><span class="line">  styleObject: &#123;</span><br><span class="line">    color: &apos;red&apos;,</span><br><span class="line">    fontSize: &apos;13px&apos;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>同样的，对象语法常常结合返回对象的计算属性使用。</p>
+<p>v-bind:style 的数组语法可以将多个样式对象应用到同一个元素上，和上面的类似，举个🌰：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div v-bind:style=&quot;[baseStyles, overridingStyles]&quot;&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure></p>
+<p>当 v-bind:style 使用需要添加浏览器引擎前缀的 CSS 属性时，如 transform，Vue.js 会自动侦测并添加相应的前缀。</p>
+<p>从 2.3.0 起你可以为 style 绑定中的属性提供一个包含多个值的数组，常用于提供多个带前缀的值，举个🌰：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div :style=&quot;&#123; display: [&apos;-webkit-box&apos;, &apos;-ms-flexbox&apos;, &apos;flex&apos;] &#125;&quot;&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure></p>
+<p>最后浏览器只会渲染被支持的那个值。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">其它</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/10/16/Vue学习笔记三/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Vue学习笔记二" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/14/Vue学习笔记二/">Vue学习笔记二</a>
+    </h1>
+  
+
+        
+        <a href="/2018/09/14/Vue学习笔记二/" class="archive-article-date">
+  	<time datetime="2018-09-14T01:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-14</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="计算属性和侦听器"><a href="#计算属性和侦听器" class="headerlink" title="计算属性和侦听器"></a>计算属性和侦听器</h3><h4 id="1-例子"><a href="#1-例子" class="headerlink" title="1.例子"></a>1.例子</h4><p>举个简单🌰：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- html --&gt;</span><br><span class="line">div id=&quot;example&quot;&gt;</span><br><span class="line">  &lt;p&gt;Original message: &quot;&#123;&#123; message &#125;&#125;&quot;&lt;/p&gt;</span><br><span class="line">  &lt;p&gt;Computed reversed message: &quot;&#123;&#123; reversedMessage &#125;&#125;&quot;&lt;/p&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- js --&gt;</span><br><span class="line">var vm = new Vue(&#123;</span><br><span class="line">  el: &apos;#example&apos;,</span><br><span class="line">  data: &#123;</span><br><span class="line">    message: &apos;Hello&apos;</span><br><span class="line">  &#125;,</span><br><span class="line">  computed: &#123;</span><br><span class="line">    // 计算属性的 getter</span><br><span class="line">    reversedMessage: function () &#123;</span><br><span class="line">      // `this` 指向 vm 实例</span><br><span class="line">      return this.message.split(&apos;&apos;).reverse().join(&apos;&apos;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>上面的例子中，我们声明了一个计算属性 reversedMessage。我们提供的函数将用作属性 vm.reversedMessage 的 getter 函数，这里是想要显示变量 message 的翻转字符串， vm.reversedMessage 的值始终取决于 vm.message 的值。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">console.log(vm.reversedMessage) // =&gt; &apos;olleH&apos;</span><br><span class="line">vm.message = &apos;Goodbye&apos;</span><br><span class="line">console.log(vm.reversedMessage) // =&gt; &apos;eybdooG&apos;</span><br></pre></td></tr></table></figure></p>
+<h4 id="2-计算属性vs方法"><a href="#2-计算属性vs方法" class="headerlink" title="2.计算属性vs方法"></a>2.计算属性vs方法</h4><p>我们也可以通过在表达式中调用方法来达到同样的效果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;p&gt;Reversed message: &quot;&#123;&#123; reversedMessage() &#125;&#125;&quot;&lt;/p&gt;</span><br><span class="line"></span><br><span class="line">// 在组件中</span><br><span class="line">methods: &#123;</span><br><span class="line">  reversedMessage: function () &#123;</span><br><span class="line">    return this.message.split(&apos;&apos;).reverse().join(&apos;&apos;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>我们可以将同一函数定义为一个方法而不是一个计算属性。两种方式的最终结果确实是完全相同的。然而区别在于，计算属性是基于它们的依赖进行缓存的，也就是只有在相关依赖发生改变时它们才会重新求值。而调用方法是每当触发重新渲染时，总会再次执行函数。<br>这也意味着下面的计算属性将不再更新，因为它不是响应式依赖：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">computed: &#123;</span><br><span class="line">  now: function () &#123;</span><br><span class="line">    return Date.now()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line">#### 3.计算属性vs侦听属性</span><br><span class="line">Vue 提供了一种更通用的方式来观察和响应 Vue 实例上的数据变动：侦听属性。建议使用计算属性会更简洁,可对比下面🌰：</span><br></pre></td></tr></table></figure></p>
+<div id="demo"></div>
+
+<!-- 使用侦听属性 -->
+<p>var vm = new Vue({<br>  el: ‘#demo’,<br>  data: {<br>    firstName: ‘Foo’,<br>    lastName: ‘Bar’,<br>    fullName: ‘Foo Bar’<br>  },<br>  watch: {<br>    firstName: function (val) {<br>      this.fullName = val + ‘ ‘ + this.lastName<br>    },<br>    lastName: function (val) {<br>      this.fullName = this.firstName + ‘ ‘ + val<br>    }<br>  }<br>})</p>
+<!-- 使用计算属性 -->
+<p>var vm = new Vue({<br>  el: ‘#demo’,<br>  data: {<br>    firstName: ‘Foo’,<br>    lastName: ‘Bar’<br>  },<br>  computed: {<br>    fullName: function () {<br>      return this.firstName + ‘ ‘ + this.lastName<br>    }<br>  }<br>})<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 4.计算属性的setter</span><br><span class="line">计算属性默认只有getter，需要时也可以提供setter:</span><br></pre></td></tr></table></figure></p>
+<p>/ …<br>computed: {<br>  fullName: {<br>    // getter<br>    get: function () {<br>      return this.firstName + ‘ ‘ + this.lastName<br>    },<br>    // setter<br>    set: function (newValue) {<br>      var names = newValue.split(‘ ‘)<br>      this.firstName = names[0]<br>      this.lastName = names[names.length - 1]<br>    }<br>  }<br>}<br>// …<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">现在再运行 vm.fullName = &apos;John Doe&apos; 时，setter 会被调用，vm.firstName 和 vm.lastName 也会相应地被更新。</span><br><span class="line"></span><br><span class="line">#### 5.侦听器</span><br><span class="line">前文我们提到了侦听器，那什么情况下用 watch 会更合适呢？当需要在数据变化时执行异步或开销较大的操作时，这个方式是最有用的。举个🌰：</span><br></pre></td></tr></table></figure></p>
+<div id="watch-example"><br>  <p><br>    Ask a yes/no question:<br>    <input v-model="question"><br>  </p><br>  <p></p><br></div>
+
+<!-- 因为 AJAX 库和通用工具的生态已经相当丰富，Vue 核心代码没有重复 -->
+<!-- 提供这些功能以保持精简。这也可以让你自由选择自己更熟悉的工具。 -->
+<p><script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script></p>
+<p><script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script></p>
+<p><script><br>var watchExampleVM = new Vue({<br>  el: ‘#watch-example’,<br>  data: {<br>    question: ‘’,<br>    answer: ‘I cannot give you an answer until you ask a question!’<br>  },<br>  watch: {<br>    // 如果 <code>question</code> 发生改变，这个函数就会运行<br>    question: function (newQuestion, oldQuestion) {<br>      this.answer = ‘Waiting for you to stop typing…’<br>      this.debouncedGetAnswer()<br>    }<br>  },<br>  created: function () {<br>    // <code>_.debounce</code> 是一个通过 Lodash 限制操作频率的函数。<br>    // 在这个例子中，我们希望限制访问 yesno.wtf/api 的频率<br>    // AJAX 请求直到用户输入完毕才会发出。想要了解更多关于<br>    // <code>_.debounce</code> 函数 (及其近亲 <code>_.throttle</code>) 的知识，<br>    // 请参考：<a href="https://lodash.com/docs#debounce">https://lodash.com/docs#debounce</a><br>    this.debouncedGetAnswer = <em>.debounce(this.getAnswer, 500)<br>  },<br>  methods: {<br>    getAnswer: function () {<br>      if (this.question.indexOf(‘?’) === -1) {<br>        this.answer = ‘Questions usually contain a question mark. ;-)’<br>        return<br>      }<br>      this.answer = ‘Thinking…’<br>      var vm = this<br>      axios.get(‘<a href="https://yesno.wtf/api">https://yesno.wtf/api</a>‘)<br>        .then(function (response) {<br>          vm.answer = </em>.capitalize(response.data.answer)<br>        })<br>        .catch(function (error) {<br>          vm.answer = ‘Error! Could not reach the API. ‘ + error<br>        })<br>    }<br>  }<br>})<br></script><br>```</p>
+<p>在这个示例中，使用 watch 选项允许我们执行异步操作 (访问一个 API)，限制我们执行该操作的频率，并在我们得到最终结果前，设置中间状态。这些都是计算属性无法做到的。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">其它</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/09/14/Vue学习笔记二/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-react v16.3生命周期的升级方案" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1080,233 +1262,10 @@
 
 
   
-    <article id="post-javascript之事件篇" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/11/16/javascript之事件篇/">javascript之事件篇</a>
-    </h1>
-  
-
-        
-        <a href="/2017/11/16/javascript之事件篇/" class="archive-article-date">
-  	<time datetime="2017-11-16T00:02:26.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="事件相关概念"><a href="#事件相关概念" class="headerlink" title="事件相关概念"></a>事件相关概念</h3><ul>
-<li><strong>事件是与浏览器或文档交互的瞬间</strong>，如点击按钮，填写表格等，它是JS与HTML之间交互的桥梁。</li>
-<li><strong>事件类型是一个用来说明发生什么类型事件的字符串</strong>。例如mousemove”表示用户鼠标移动。  </li>
-<li><strong>事件目标是发生的事件或与之相关的对象</strong>。当讲事件时，我们必须同时指明类型和目标。例如，window上的load事件或者<button>元素的click事件。</button></li>
-<li><strong>事件处理程序或事件监听程序时处理或响应事件的函数</strong>。应用程序通过指明事件类型和事件目标，在WeLb浏览器中注册它们的事件处理程序函数。</li>
-<li><strong>事件对象是与特定事件相关且包含有关该事件的详细信息的对象</strong>。事件对象作为参数传递给事件处理程序函数（不包括IE8之前的版本，在这些浏览器中有时仅能通过全局变量event才能得到）。所有事件的对象都有用来指定事件类型的type和指定事件目标的target属性（在IE8之前版本中用srcElement而非target属性）。</li>
-<li><strong>事件传播是浏览器决定哪个对象触发其事件处理程序的过程</strong>。事件传播有两种形式，一种是事件冒泡，另一种是事件捕获。</li>
-</ul>
-<h3 id="事件类型"><a href="#事件类型" class="headerlink" title="事件类型"></a>事件类型</h3><ol>
-<li>DOM事件</li>
-<li>HTML5事件</li>
-<li>触摸屏和移动设备事件  </li>
-</ol>
-<h3 id="事件处理程序"><a href="#事件处理程序" class="headerlink" title="事件处理程序"></a>事件处理程序</h3><ul>
-<li>DOM0级模型<br>又称为原始事件模型，在该模型中，事件不会传播，即没有事件流的概念。</li>
-</ul>
-<ol>
-<li>设置javascript对象属性为事件处理程序</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var btn = document.getElementById(&apos;.btn&apos;);</span><br><span class="line">btn.onclick = function()&#123;</span><br><span class="line">    alert(&apos;hello word!&apos;)</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>缺点：每个事件目标对于每种事件类型将最多只有一种处理程序。</p>
-<ol>
-<li>设置HTML标签属性为事件处理程序<br>这种方式设置事件处理程序，html标签的属性值应该是javascript代码字符串，不应该是用大括号包围且使用function关键字的前缀；如果包含多条javascript语句，必须使用分号隔开或者断开属性值使其跨多行。</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;button&quot; onclick=&quot;alert(&apos;hello word!&apos;)&quot;&gt;</span><br></pre></td></tr></table></figure>
-<p>缺点：这种方式将 HTML 代码与 JavaScript 代码耦合在一起，不利于代码的维护，所以应该尽量避免使用这样的方式。</p>
-<ul>
-<li>DOM2级模型<br>属于W3C标准模型，现代浏览器(除IE6-8之外的浏览器)都支持该模型。在该事件模型中，一次事件共有三个过程:  </li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;title&gt;Event Bubbling Example&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;div id=&quot;myDiv&quot;&gt;Click Me&lt;/div&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
-<p><strong>事件捕获阶段</strong>(capturing phase)。事件从document一直向下传播到目标元素,  依次检查经过的节点是否绑定了事件监听函数，如果有则执行。</p>
-<blockquote>
-<p>document-&gt;html-&gt;body-&gt;div  </p>
-</blockquote>
-<p><strong>事件处理阶段</strong>(target phase)。事件到达目标元素, 触发目标元素的监听函数。  </p>
-<p><strong>事件冒泡阶段</strong>(bubbling phase)。事件从目标元素冒泡到document, 依次检查经过的节点是否绑定了事件监听函数，如果有则执行。  </p>
-<blockquote>
-<p>div-&gt;body-&gt;html-&gt;document  </p>
-<h4 id="addEventListener"><a href="#addEventListener" class="headerlink" title="addEventListener()"></a>addEventListener()</h4><p>addEventListener()接受三个参数，第一个是注册处理程序的类型；第二个是指定类型的事件发生时应该调用的函数；第三个是布尔值，通常情况下会给这个参数传递false，如果相反传递了true，那么函数将注册为捕获事件处理程序，并在事件不同的调用阶段调用。 </p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">var btn = document.getElementById(&apos;.btn&apos;),</span><br><span class="line">    showMessage = function()&#123;</span><br><span class="line">        alert(&apos;again...&apos;)</span><br><span class="line">    &#125;;</span><br><span class="line">btn.onclick = function()&#123; </span><br><span class="line">    alert(&apos;hello word !&apos;);</span><br><span class="line">&#125;</span><br><span class="line">//事件绑定监听函数</span><br><span class="line">btn.addEventListener(‘click’, showMessage, false);</span><br><span class="line">//事件移除监听函数</span><br><span class="line">btn.removeEventListener(‘click’, showMessage &#125;, false);</span><br><span class="line">```  </span><br><span class="line">能通过多次调用addEventListener()为同一个对象注册同一事件类型的多个处理程序函数。当对象上发生事件时，所以该件事件类型的注册处理程序都会按照注册的顺序调用。使用相同的参数在在同一个对象上多次调用addEventListener()是没用的，处理程序仍然只注册一次，同时重复调用也不会改变调用程序处理程序的顺序。</span><br><span class="line"></span><br><span class="line">- IE事件模型</span><br><span class="line">#### attachEvent()和detachEvent()的工作原理与addEventListener()和removeEventListener()类似，但有如下例外：</span><br><span class="line">1. IE事件模型不支持事件捕获，所以attachEvent()和detachEvent()只有两个参数：事件类型和处理程序函数。</span><br><span class="line">2. IE方法的第一参数使用了带&apos;on&apos;前缀的事件处理程序属性名。</span><br><span class="line">3. attachEvent()允许相同的事件处理程序函数注册多次。注册函数的调用次数和注册次数一样。  </span><br><span class="line">### 事件对象  </span><br><span class="line">下面介绍一些比较常用的属性和方法。    </span><br><span class="line"></span><br><span class="line">target、 srcElement、 currentTarget 和 relatedTarget、fromElement、 toElement  </span><br><span class="line">&gt; - target 与 srcElement 完全相同； </span><br><span class="line">&gt; - target 指触发事件的元素， currentTarget 指事件所绑定的元素；</span><br><span class="line">&gt; - relatedTarget： 与事件的目标节点相关的节点。对于 mouseover 事件来说，该属性是鼠标指针移到目标节点上时所离开的那个节点。对于 mouseout 事件来说，该属性是离开目标时，鼠标指针进入的节点。对于其他类型的事件来说，这个属性没有用；</span><br><span class="line">&gt; - fromElement 和 toElement 仅仅对于 mouseover 和 mouseout 事件有效。 </span><br><span class="line"></span><br><span class="line">clientX/Y、 screenX/Y、 pageX/Y、 offsetX/Y </span><br><span class="line">&gt; - offsetX/Y： 点击位置相对于所处元素左上角的位置；</span><br><span class="line">&gt; - clientX/Y： 点击位置相对于浏览器内容区域左上角的位置；</span><br><span class="line">&gt; - screenX/Y： 点击位置相对于屏幕左上角的位置；</span><br><span class="line">&gt; - pageX/Y： 点击位置相对整张页面左上角的位置；</span><br><span class="line">&gt; - pageX/Y 与 clientX/Y 一般情况下会相同，只有出现滚动条时才不一样。  </span><br><span class="line"></span><br><span class="line">altKey、 ctrlKey、 shiftKey</span><br><span class="line">&gt; - altKey： 返回当事件被触发时，&quot;ALT&quot; 是否被按下；</span><br><span class="line">&gt; - ctrlKey： 返回当事件被触发时，&quot;CTRL&quot; 键是否被按下；</span><br><span class="line">&gt; - shiftKey： 返回当事件被触发时，&quot;SHIFT&quot; 键是否被按下；  </span><br><span class="line"></span><br><span class="line">其他属性</span><br><span class="line">&gt; - type： 返回当前 Event 对象表示的事件的名称</span><br><span class="line">&gt; - bubbles： 返回布尔值，指示事件是否是起泡事件类型；</span><br><span class="line">&gt; - cancelable： 返回布尔值，指示事件是否可拥可取消的默认动作；</span><br><span class="line">&gt; - eventPhase： 返回事件传播的当前阶段，有三个值： Event.CAPTURING_PHASE、 Event.AT_TARGET、 Event.BUBBLING_PHASE，对应的值为 1、2、3，分别表示捕获阶段、正常事件派发和起泡阶段；</span><br><span class="line">&gt; - path： 冒泡阶段经过的节点；  </span><br><span class="line"></span><br><span class="line">方法</span><br><span class="line">&gt; - preventDefault()： 通知浏览器不要执行与事件关联的默认动作；</span><br><span class="line">&gt; - stopPropagation()： 阻止冒泡；  </span><br><span class="line"></span><br><span class="line">### Event Wrapper</span><br></pre></td></tr></table></figure>
-<p>var eventUtils={<br>     // 添加句柄<br>     addHandler:function(element,type,handler){<br>       if(element.addEventListener){<br>         element.addEventListener(type,handler,false);<br>       }else if(element.attachEvent){<br>         element.attachEvent(‘on’+type,handler);<br>       }else{<br>         element[‘on’+type]=handler;<br>       }<br>     },<br>     // 删除句柄<br>     removeHandler:function(element,type,handler){<br>       if(element.removeEventListener){<br>         element.removeEventListener(type,handler,false);<br>       }else if(element.detachEvent){<br>         element.detachEvent(‘on’+type,handler);<br>       }else{<br>         element[‘on’+type]=null;<br>       }<br>     },<br>    //获取事件对象<br>    //IE模型中event是一个全局唯一的对象绑定在window对象上<br>    getEvent:function(event){<br>       return event?event:window.event;<br>    },<br>    //获取类型<br>    getType:function(event){<br>        return event.type;<br>    },<br>    getElement:function(event){<br>        return event.target || event.srcElement;<br>    },<br>    //阻止默认事件<br>    preventDefault:function(event){<br>        if(event.preventDefault){<br>         event.preventDefault();<br>        }else{<br>         event.returnValue=false;<br>        }<br>    },<br>    //阻止冒泡<br>   stopPropagation:function(event){<br>       if(event.stopPropagation){<br>         event.stopPropagation();<br>       }else{<br>         event.cancelBubble=true;<br>        }<br>   }<br>  }<br>```</p>
-<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>事件是将 JavaScript 与网页联系在一起的主要方式。DOM3 级事件规范和 HTML5 定义了常见的大多数事件。即使有规范定义了基本事件，但很多浏览器仍然在规范之外实现了自己的专有事件，从而为开发人员提供更多掌握用户交互的手段。有些专有事件与特定设备关联，例如移动 Safari 中的 orientationchange 事件就是特定关联 iOS 设备的。</p>
-<p>在使用事件时，需要考虑如下一些内存与性能方面的问题。</p>
-<ul>
-<li>有必要限制一个页面中事件处理程序的数量，数量太多会导致占用大量内存，而且也会让用户感觉页面反应不够灵敏。</li>
-<li>建立在事件冒泡机制之上的事件委托技术，可以有效地减少事件处理程序的数量。</li>
-<li>建议在浏览器卸载页面之前移除页面中的所有事件处理程序。</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">js基础</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/11/16/javascript之事件篇/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-201711/javascript之this篇" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/11/12/201711/javascript之this篇/">javascript之this篇</a>
-    </h1>
-  
-
-        
-        <a href="/2017/11/12/201711/javascript之this篇/" class="archive-article-date">
-  	<time datetime="2017-11-12T00:02:26.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>开门见山，下面我们直入正题，为大家介绍一下关于javascript的this这一指向，首先我想用一句话来概括js中关于this的指向问题：==this它其实既不指向函数自身也不指向函数的词法作用域，this实际上是在函数被调用时发生的绑定，它指向什么完全取决于函数在哪里被调用。==</p>
-<p>在正常情况下，下面我们通过绑定的规则把this分为四个规则来介绍：</p>
-<h4 id="1、默认绑定（全局上下文"><a href="#1、默认绑定（全局上下文" class="headerlink" title="1、默认绑定（全局上下文)"></a>1、默认绑定（全局上下文)</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function foo()&#123;</span><br><span class="line">     //&quot;use strict&quot;;</span><br><span class="line">     console.log(this.a);</span><br><span class="line">&#125;</span><br><span class="line">var a = 2;</span><br><span class="line">foo();   // 2</span><br></pre></td></tr></table></figure>
-<h4 id="2、隐式绑定-作为对象的方法调用，闭包"><a href="#2、隐式绑定-作为对象的方法调用，闭包" class="headerlink" title="2、隐式绑定(作为对象的方法调用，闭包)"></a>2、隐式绑定(作为对象的方法调用，闭包)</h4><h5 id="A、作为对象的方法调用"><a href="#A、作为对象的方法调用" class="headerlink" title="A、作为对象的方法调用"></a>A、作为对象的方法调用</h5><p>demo1:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function foo()&#123;</span><br><span class="line">     console.log( this.a );</span><br><span class="line">&#125;</span><br><span class="line">var obj = &#123;</span><br><span class="line">     a: 2,</span><br><span class="line">     foo: foo</span><br><span class="line">&#125;;</span><br><span class="line">obj.foo();  //2</span><br></pre></td></tr></table></figure>
-<p>demo2:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">function foo()&#123;</span><br><span class="line">     console.log( this.a );</span><br><span class="line">&#125;</span><br><span class="line">var obj2 = &#123;</span><br><span class="line">     a: 42,</span><br><span class="line">     foo: foo</span><br><span class="line">&#125;;</span><br><span class="line">var obj1 = &#123;</span><br><span class="line">     a:2,</span><br><span class="line">     obj2: obj2</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">obj1.obj2.foo();  //??</span><br></pre></td></tr></table></figure>
-<p><strong>注：对象属性引用链中只有上一层或者说最后一层在调用的位置中起作用</strong></p>
-<h5 id="B、闭包（内部函数）"><a href="#B、闭包（内部函数）" class="headerlink" title="B、闭包（内部函数）"></a>B、闭包（内部函数）</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var a = &apos;foo&apos;;</span><br><span class="line">var person = &#123;</span><br><span class="line">     a: &apos;bar&apos;,</span><br><span class="line">     hello: function( sth )&#123;</span><br><span class="line">         var sayHello = function() &#123;</span><br><span class="line">               console.log( this.a +&apos;says&apos; +sth );</span><br><span class="line">          &#125;;</span><br><span class="line">          sayHello(sth);</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br><span class="line">person.hello(&apos;hello&apos;);  //??</span><br></pre></td></tr></table></figure>
-<p>这里this的指向跟闭包没有关系，闭包针对于变量来说的。sayHello function is being invoked as a standalone function not attached to any object, and this will refer to the global object.</p>
-<h5 id="C、隐式丢失"><a href="#C、隐式丢失" class="headerlink" title="C、隐式丢失"></a>C、隐式丢失</h5><h6 id="a、闭包（如上）"><a href="#a、闭包（如上）" class="headerlink" title="a、闭包（如上）"></a>a、闭包（如上）</h6><h6 id="b、传入回调函数时"><a href="#b、传入回调函数时" class="headerlink" title="b、传入回调函数时"></a>b、传入回调函数时</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">function foo()&#123;</span><br><span class="line">     console.log( this.a );</span><br><span class="line">&#125;</span><br><span class="line">function doFoo( fn )&#123;</span><br><span class="line">     //fn其实引用的是foo</span><br><span class="line">     fn();  //&lt;-调用位置</span><br><span class="line">&#125;</span><br><span class="line">var obj = &#123;</span><br><span class="line">     a: 2,</span><br><span class="line">     foo: foo</span><br><span class="line">&#125;;</span><br><span class="line">var a = &quot;global a&quot;;</span><br><span class="line">doFoo( obj.foo );  //??</span><br><span class="line">//setTimeout(obj.foo,100); //??</span><br></pre></td></tr></table></figure>
-<p><strong>注：参数传递其实是一种隐式赋值，所以我们传入函数时也会被隐式赋值，因此应用了默认绑定，就是绑定到全局中去。</strong></p>
-<h4 id="3、显式绑定-使用call与apply设置this"><a href="#3、显式绑定-使用call与apply设置this" class="headerlink" title="3、显式绑定(使用call与apply设置this)"></a>3、显式绑定(使用call与apply设置this)</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function foo()&#123;</span><br><span class="line">     console.log( this.a );</span><br><span class="line">&#125;</span><br><span class="line">var obj = &#123;</span><br><span class="line">     a: 2</span><br><span class="line">&#125;;</span><br><span class="line">foo.call( obj ); //??</span><br></pre></td></tr></table></figure>
-<h5 id="A、硬绑定"><a href="#A、硬绑定" class="headerlink" title="A、硬绑定"></a>A、硬绑定</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">function foo()&#123;</span><br><span class="line">     console.log( this.a );</span><br><span class="line">&#125;</span><br><span class="line">var obj = &#123;</span><br><span class="line">     a:2</span><br><span class="line">&#125;;</span><br><span class="line">var bar = function()&#123;</span><br><span class="line">     foo.call( obj );</span><br><span class="line">&#125;;</span><br><span class="line">bar();  //??</span><br><span class="line">setTimeout( bar,100 );  //??</span><br><span class="line"></span><br><span class="line">//硬绑定的bar可能or不可能再修改它的this呢？？？</span><br><span class="line">bar.call( window ); //??</span><br></pre></td></tr></table></figure>
-<p><strong>注：Function.prototype.bind有兴趣可以自己去了解，意思差不多</strong></p>
-<h4 id="4、new绑定"><a href="#4、new绑定" class="headerlink" title="4、new绑定"></a>4、new绑定</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function foo(a)&#123;</span><br><span class="line">  this.a = a;</span><br><span class="line">&#125;</span><br><span class="line">var bar= new foo(2);</span><br><span class="line">console.log(bar.a);  //??</span><br></pre></td></tr></table></figure>
-<p>以上四种就是正常情况下的四个判断规则啦，那么有正常的那也就有所例外嘛？是的，你没猜错，真的有例外。</p>
-<h5 id="1、当在默认使用call-apply-bind时把null或者undefined作为this的绑定对象传入呢？？"><a href="#1、当在默认使用call-apply-bind时把null或者undefined作为this的绑定对象传入呢？？" class="headerlink" title="1、当在默认使用call,apply,bind时把null或者undefined作为this的绑定对象传入呢？？"></a>1、当在默认使用call,apply,bind时把null或者undefined作为this的绑定对象传入呢？？</h5><h5 id="2、间接引用？"><a href="#2、间接引用？" class="headerlink" title="2、间接引用？"></a>2、间接引用？</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function foo()&#123;</span><br><span class="line">     console.log( this.a );</span><br><span class="line">&#125;</span><br><span class="line">var a =2;</span><br><span class="line">var o = &#123; a: 3,foo: foo &#125;;</span><br><span class="line">var p = &#123; a: 4 &#125;;</span><br><span class="line">o.foo();  //3</span><br><span class="line">(p.foo() = o.foo)();  //????</span><br></pre></td></tr></table></figure>
-<h5 id="3、软绑定？"><a href="#3、软绑定？" class="headerlink" title="3、软绑定？"></a>3、软绑定？</h5><p>哦，对了，还有一个差点忘记了，就是关于ES6的箭头函数啦。<br>想必聪明机智的你看完下面的这两个函数就会知道我要讲什么了。<br>es6 demo:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function foo()&#123;</span><br><span class="line">     setTimeout( () =&gt; &#123;</span><br><span class="line">          //这里的this在词法上继承自foo();</span><br><span class="line">          console.log( this.a );</span><br><span class="line">     &#125;,100);</span><br><span class="line">&#125;</span><br><span class="line">var obj = &#123;</span><br><span class="line">     a: 2</span><br><span class="line">&#125;;</span><br><span class="line">foo.call( obj ); //??</span><br></pre></td></tr></table></figure>
-<p>非es6 demo:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function foo()&#123;</span><br><span class="line">     var self = this;</span><br><span class="line">        setTimeout(function()&#123;</span><br><span class="line">          console.log(self.a);</span><br><span class="line">     &#125;,100)</span><br><span class="line">&#125;</span><br><span class="line">var obj = &#123;</span><br><span class="line">     a: 2</span><br><span class="line">&#125;;</span><br><span class="line">foo.call( obj ); //??</span><br></pre></td></tr></table></figure>
-<h4 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h4><p> 以下是根据正常情况下按照优先级排列的四条规则来判断this的绑定对象：</p>
-<ul>
-<li>1、由new调用？绑定到新建的对象</li>
-<li>2、由call或者apply(或者bind)调用？绑定到指定的对象</li>
-<li>3、由上下文对象调用？绑定到那个上下文对象（就近原则）</li>
-<li>4、默认：在严格模式下绑定到undefined,否则绑定到全局对象</li>
-<li>还有一些调用可能在无意中使用了默认绑定规则；</li>
-<li>还有就是es6的箭头函数并不会使用以上四条规则，而是根据当前的词法作用域来决定this,具体来说，就是会继承外层函数调用的this绑定。</li>
-</ul>
-<p>第一次整理这种关于技术的文章，各位将就着看，欢迎批评指正哦！附上美女高清图一张。。（文件过大，无法预览）</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">js基础</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/11/12/201711/javascript之this篇/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
+    <nav id="page-nav">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+    </nav>
   
 
 

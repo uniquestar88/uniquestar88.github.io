@@ -150,6 +150,476 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-《七天学不会的NodeJS》2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/12/14/《七天学不会的NodeJS》2/">《七天学不会的NodeJS》2</a>
+    </h1>
+  
+
+        
+        <a href="/2018/12/14/《七天学不会的NodeJS》2/" class="archive-article-date">
+  	<time datetime="2018-12-14T01:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-14</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="网络操作"><a href="#网络操作" class="headerlink" title="网络操作"></a>网络操作</h3><h4 id="开门红"><a href="#开门红" class="headerlink" title="开门红"></a>开门红</h4><p>使用NodeJS内置的http模块简单实现一个HTTP服务器：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var http = require(&apos;http&apos;);</span><br><span class="line"></span><br><span class="line">http.createServer(function (request, response) &#123;</span><br><span class="line">    response.writeHead(200, &#123; &apos;Content-Type&apos;: &apos;text-plain&apos; &#125;);</span><br><span class="line">    response.end(&apos;Hello World\n&apos;);</span><br><span class="line">&#125;).listen(8124);</span><br></pre></td></tr></table></figure></p>
+<p>以上程序创建了一个HTTP服务器并监听8124端口，打开浏览器访问该端口<a href="http://127.0.0.1:8124/就能够看到效果。" target="_blank" rel="external">http://127.0.0.1:8124/就能够看到效果。</a></p>
+<blockquote>
+<p> 在Linux系统下，监听1024以下端口需要root权限。因此，如果想监听80或443端口的话，需要使用sudo命令启动程序。</p>
+</blockquote>
+<h4 id="API走马观花"><a href="#API走马观花" class="headerlink" title="API走马观花"></a>API走马观花</h4><h5 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h5><p>‘http’模块提供两种使用方式：  </p>
+<ul>
+<li>作为服务端使用时，创建一个HTTP服务器，监听HTTP客户端请求并返回响应。</li>
+<li>作为客户端使用时，发起一个HTTP客户端请求，获取服务端响应。</li>
+</ul>
+<p>服务端模式下如何工作，首先使用.createServer方法创建一个服务器，然后调用.listen方法监听端口。之后，每当来了一个客户端请求，创建服务器时传入的回调函数就被调用一次。<br>HTTP请求本质上是一个数据流，由请求头（headers）和请求体（body）组成。例如以下是一个完整的HTTP请求数据内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 请求头 --&gt;</span><br><span class="line">POST / HTTP/1.1</span><br><span class="line">User-Agent: curl/7.26.0</span><br><span class="line">Host: localhost</span><br><span class="line">Accept: */*</span><br><span class="line">Content-Length: 11</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line"></span><br><span class="line">&lt;!-- 请求体 --&gt;</span><br><span class="line">Hello World</span><br></pre></td></tr></table></figure></p>
+<p>HTTP请求在发送给服务器时，可以认为是按照从头到尾的顺序一个字节一个字节地以数据流方式发送的。而http模块创建的HTTP服务器在接收到完整的请求头后，就会调用回调函数。在回调函数中，除了可以使用request对象访问请求头数据外，还能把request对象当作一个只读数据流来访问请求体数据。举个🌰：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">http.createServer(function (request, response) &#123;</span><br><span class="line">    var body = [];</span><br><span class="line"></span><br><span class="line">    console.log(request.method);</span><br><span class="line">    console.log(request.headers);</span><br><span class="line"></span><br><span class="line">    request.on(&apos;data&apos;, function (chunk) &#123;</span><br><span class="line">        body.push(chunk);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    request.on(&apos;end&apos;, function () &#123;</span><br><span class="line">        body = Buffer.concat(body);</span><br><span class="line">        console.log(body.toString());</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;).listen(80);</span><br><span class="line"></span><br><span class="line">------------------------------------</span><br><span class="line">POST</span><br><span class="line">&#123; &apos;user-agent&apos;: &apos;curl/7.26.0&apos;,</span><br><span class="line">  host: &apos;localhost&apos;,</span><br><span class="line">  accept: &apos;*/*&apos;,</span><br><span class="line">  &apos;content-length&apos;: &apos;11&apos;,</span><br><span class="line">  &apos;content-type&apos;: &apos;application/x-www-form-urlencoded&apos; &#125;</span><br><span class="line">Hello World</span><br></pre></td></tr></table></figure></p>
+<p>HTTP响应本质上也是一个数据流，同样由响应头（headers）和响应体（body）组成。例如以下是一个完整的HTTP请求数据内容。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 200 OK</span><br><span class="line">Content-Type: text/plain</span><br><span class="line">Content-Length: 11</span><br><span class="line">Date: Tue, 05 Nov 2013 05:31:38 GMT</span><br><span class="line">Connection: keep-alive</span><br><span class="line"></span><br><span class="line">Hello World</span><br></pre></td></tr></table></figure></p>
+<p>在回调函数中，除了可以使用response对象来写入响应头数据外，还能把response对象当作一个只写数据流来写入响应体数据。服务端原样将客户端请求的请求体数据返回给客户端：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">http.createServer(function (request, response) &#123;</span><br><span class="line">    response.writeHead(200, &#123; &apos;Content-Type&apos;: &apos;text/plain&apos; &#125;);</span><br><span class="line"></span><br><span class="line">    request.on(&apos;data&apos;, function (chunk) &#123;</span><br><span class="line">        response.write(chunk);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    request.on(&apos;end&apos;, function () &#123;</span><br><span class="line">        response.end();</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;).listen(80);</span><br></pre></td></tr></table></figure></p>
+<p>客户端模式下如何工作，为了发起一个客户端HTTP请求，我们需要指定目标服务器的位置并发送请求头和请求体：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">var options = &#123;</span><br><span class="line">        hostname: &apos;www.example.com&apos;,</span><br><span class="line">        port: 80,</span><br><span class="line">        path: &apos;/upload&apos;,</span><br><span class="line">        method: &apos;POST&apos;,</span><br><span class="line">        headers: &#123;</span><br><span class="line">            &apos;Content-Type&apos;: &apos;application/x-www-form-urlencoded&apos;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">var request = http.request(options, function (response) &#123;&#125;);</span><br><span class="line"></span><br><span class="line">request.write(&apos;Hello World&apos;);</span><br><span class="line">request.end();</span><br></pre></td></tr></table></figure></p>
+<p>以上例子.request方法创建了一个客户端，并指定请求目标和请求头数据。之后，就可以把request对象当作一个只写数据流来写入请求体数据和结束请求。<br>另外，由于HTTP请求中GET请求是最常见的一种，并且不需要请求体，因此http模块也提供了以下便捷API。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http.get(&apos;http://www.example.com/&apos;, function (response) &#123;&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>当客户端发送请求并接收到完整的服务端响应头时，就会调用回调函数。在回调函数中，除了可以使用response对象访问响应头数据外，还能把response对象当作一个只读数据流来访问响应体数据。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">http.get(&apos;http://www.example.com/&apos;, function (response) &#123;</span><br><span class="line">    var body = [];</span><br><span class="line"></span><br><span class="line">    console.log(response.statusCode);</span><br><span class="line">    console.log(response.headers);</span><br><span class="line"></span><br><span class="line">    response.on(&apos;data&apos;, function (chunk) &#123;</span><br><span class="line">        body.push(chunk);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    response.on(&apos;end&apos;, function () &#123;</span><br><span class="line">        body = Buffer.concat(body);</span><br><span class="line">        console.log(body.toString());</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">------------------------------------</span><br><span class="line">200</span><br><span class="line">&#123; &apos;content-type&apos;: &apos;text/html&apos;,</span><br><span class="line">  server: &apos;Apache&apos;,</span><br><span class="line">  &apos;content-length&apos;: &apos;801&apos;,</span><br><span class="line">  date: &apos;Tue, 05 Nov 2013 06:08:41 GMT&apos;,</span><br><span class="line">  connection: &apos;keep-alive&apos; &#125;</span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
+<h5 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h5><p>https模块与http模块极为类似，区别在于https模块需要额外处理SSL证书。<br>在服务端模式下，创建一个HTTPS服务器的示例如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var options = &#123;</span><br><span class="line">        key: fs.readFileSync(&apos;./ssl/default.key&apos;),</span><br><span class="line">        cert: fs.readFileSync(&apos;./ssl/default.cer&apos;)</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">var server = https.createServer(options, function (request, response) &#123;</span><br><span class="line">    // ...</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>与创建HTTP服务器相比，多了一个options对象，通过key和cert字段指定了HTTPS服务器使用的私钥和公钥。  </p>
+<p>另外，NodeJS支持SNI技术，可以根据HTTPS客户端请求使用的域名动态使用不同的证书，因此同一个HTTPS服务器可以使用多个域名提供服务。接着上例，可以使用以下方法为HTTPS服务器添加多组证书。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">server.addContext(&apos;foo.com&apos;, &#123;</span><br><span class="line">    key: fs.readFileSync(&apos;./ssl/foo.com.key&apos;),</span><br><span class="line">    cert: fs.readFileSync(&apos;./ssl/foo.com.cer&apos;)</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">server.addContext(&apos;bar.com&apos;, &#123;</span><br><span class="line">    key: fs.readFileSync(&apos;./ssl/bar.com.key&apos;),</span><br><span class="line">    cert: fs.readFileSync(&apos;./ssl/bar.com.cer&apos;)</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>在客户端模式下，发起一个HTTPS客户端请求与http模块几乎相同。<br>但如果目标服务器使用的SSL证书是自制的，不是从颁发机构购买的，默认情况下https模块会拒绝连接，提示说有证书安全问题。在options里加入rejectUnauthorized: false字段可以禁用对证书有效性的检查，从而允许https模块请求开发环境下使用自制证书的HTTPS服务器。  </p>
+<h5 id="URL"><a href="#URL" class="headerlink" title="URL"></a>URL</h5><p>处理HTTP请求时url模块使用率超高，因为该模块允许解析URL、生成URL，以及拼接URL。一个完整的URL的各组成部分：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">                           href</span><br><span class="line"> -----------------------------------------------------------------</span><br><span class="line">                            host              path</span><br><span class="line">                      --------------- ----------------------------</span><br><span class="line"> http: // user:pass @ host.com : 8080 /p/a/t/h ?query=string #hash</span><br><span class="line"> -----    ---------   --------   ---- -------- ------------- -----</span><br><span class="line">protocol     auth     hostname   port pathname     search     hash</span><br><span class="line">                                                ------------</span><br><span class="line">                                                   query</span><br></pre></td></tr></table></figure></p>
+<p>使用.parse方法来将一个URL字符串转换为URL对象:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">url.parse(&apos;http://user:pass@host.com:8080/p/a/t/h?query=string#hash&apos;);</span><br><span class="line">/* =&gt;</span><br><span class="line">&#123; protocol: &apos;http:&apos;,</span><br><span class="line">  auth: &apos;user:pass&apos;,</span><br><span class="line">  host: &apos;host.com:8080&apos;,</span><br><span class="line">  port: &apos;8080&apos;,</span><br><span class="line">  hostname: &apos;host.com&apos;,</span><br><span class="line">  hash: &apos;#hash&apos;,</span><br><span class="line">  search: &apos;?query=string&apos;,</span><br><span class="line">  query: &apos;query=string&apos;,</span><br><span class="line">  pathname: &apos;/p/a/t/h&apos;,</span><br><span class="line">  path: &apos;/p/a/t/h?query=string&apos;,</span><br><span class="line">  href: &apos;http://user:pass@host.com:8080/p/a/t/h?query=string#hash&apos; &#125;</span><br><span class="line">*/</span><br></pre></td></tr></table></figure></p>
+<p>传给.parse方法的不一定要是一个完整的URL，例如在HTTP服务器回调函数中，request.url不包含协议头和域名，但同样可以用.parse方法解析。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">http.createServer(function (request, response) &#123;</span><br><span class="line">    var tmp = request.url; // =&gt; &quot;/foo/bar?a=b&quot;</span><br><span class="line">    url.parse(tmp);</span><br><span class="line">    /* =&gt;</span><br><span class="line">    &#123; protocol: null,</span><br><span class="line">      slashes: null,</span><br><span class="line">      auth: null,</span><br><span class="line">      host: null,</span><br><span class="line">      port: null,</span><br><span class="line">      hostname: null,</span><br><span class="line">      hash: null,</span><br><span class="line">      search: &apos;?a=b&apos;,</span><br><span class="line">      query: &apos;a=b&apos;,</span><br><span class="line">      pathname: &apos;/foo/bar&apos;,</span><br><span class="line">      path: &apos;/foo/bar?a=b&apos;,</span><br><span class="line">      href: &apos;/foo/bar?a=b&apos; &#125;</span><br><span class="line">    */</span><br><span class="line">&#125;).listen(80);</span><br></pre></td></tr></table></figure></p>
+<p>.parse方法还支持第二个和第三个布尔类型可选参数。第二个参数等于true时，该方法返回的URL对象中，query字段不再是一个字符串，而是一个经过querystring模块转换后的参数对象。第三个参数等于true时，该方法可以正确解析不带协议头的URL，例如，//foo/bar 会被解析为 {host: ‘foo’, pathname: ‘/bar’} 而不是 {pathname: ‘//foo/bar’}。 默认为 false。<br>反过来，format方法允许将一个URL对象转换为URL字符串。<br>另外.resolve方法可以用于拼接URL：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">url.resolve(&apos;http://www.example.com/foo/bar&apos;, &apos;../baz&apos;);</span><br><span class="line">/* =&gt;</span><br><span class="line">http://www.example.com/baz</span><br><span class="line">*/</span><br><span class="line">```  </span><br><span class="line">##### Query String</span><br><span class="line">querystring模块用于实现URL参数字符串与参数对象的互相转换，示例如下。</span><br></pre></td></tr></table></figure></p>
+<p>querystring.parse(‘foo=bar&amp;baz=qux&amp;baz=quux&amp;corge’);<br>/<em> =&gt;<br>{ foo: ‘bar’, baz: [‘qux’, ‘quux’], corge: ‘’ }
+</em>/</p>
+<p>querystring.stringify({ foo: ‘bar’, baz: [‘qux’, ‘quux’], corge: ‘’ });<br>/<em> =&gt;<br>‘foo=bar&amp;baz=qux&amp;baz=quux&amp;corge=’
+</em>/<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">##### Zlib</span><br><span class="line">zlib模块提供了数据压缩和解压的功能。当我们处理HTTP请求和响应时，可能需要用到这个模块。  </span><br><span class="line">首先我们看一个使用zlib模块压缩HTTP响应体数据的例子。这个例子中，判断了客户端是否支持gzip，并在支持的情况下使用zlib模块返回gzip之后的响应体数据。</span><br></pre></td></tr></table></figure></p>
+<p>http.createServer(function (request, response) {<br>    var i = 1024,<br>        data = ‘’;</p>
+<pre><code>while (i--) {
+    data += &apos;.&apos;;
+}
+
+if ((request.headers[&apos;accept-encoding&apos;] || &apos;&apos;).indexOf(&apos;gzip&apos;) !== -1) {
+    zlib.gzip(data, function (err, data) {
+        response.writeHead(200, {
+            &apos;Content-Type&apos;: &apos;text/plain&apos;,
+            &apos;Content-Encoding&apos;: &apos;gzip&apos;
+        });
+        response.end(data);
+    });
+} else {
+    response.writeHead(200, {
+        &apos;Content-Type&apos;: &apos;text/plain&apos;
+    });
+    response.end(data);
+}
+</code></pre><p>}).listen(80);<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">接着我们看一个使用zlib模块解压HTTP响应体数据的例子。这个例子中，判断了服务端响应是否使用gzip压缩，并在压缩的情况下使用zlib模块解压响应体数据。</span><br></pre></td></tr></table></figure></p>
+<p>var options = {<br>        hostname: ‘www.example.com’,<br>        port: 80,<br>        path: ‘/‘,<br>        method: ‘GET’,<br>        headers: {<br>            ‘Accept-Encoding’: ‘gzip, deflate’<br>        }<br>    };</p>
+<p>http.request(options, function (response) {<br>    var body = [];</p>
+<pre><code>response.on(&apos;data&apos;, function (chunk) {
+    body.push(chunk);
+});
+
+response.on(&apos;end&apos;, function () {
+    body = Buffer.concat(body);
+
+    if (response.headers[&apos;content-encoding&apos;] === &apos;gzip&apos;) {
+        zlib.gunzip(body, function (err, data) {
+            console.log(data.toString());
+        });
+    } else {
+        console.log(data.toString());
+    }
+});
+</code></pre><p>}).end();<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">##### Net</span><br><span class="line">net模块可用于创建Socket服务器或Socket客户端。  </span><br><span class="line">首先我们来看一个使用Socket搭建一个很不严谨的HTTP服务器的例子。这个HTTP服务器不管收到啥请求，都固定返回相同的响应。</span><br></pre></td></tr></table></figure></p>
+<p>net.createServer(function (conn) {<br>    conn.on(‘data’, function (data) {<br>        conn.write([<br>            ‘HTTP/1.1 200 OK’,<br>            ‘Content-Type: text/plain’,<br>            ‘Content-Length: 11’,<br>            ‘’,<br>            ‘Hello World’<br>        ].join(‘\n’));<br>    });<br>}).listen(80);<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">接着我们来看一个使用Socket发起HTTP客户端请求的例子。这个例子中，Socket客户端在建立连接后发送了一个HTTP GET请求，并通过data事件监听函数来获取服务器响应。</span><br></pre></td></tr></table></figure></p>
+<p>var options = {<br>        port: 80,<br>        host: ‘www.example.com’<br>    };</p>
+<p>var client = net.connect(options, function () {<br>        client.write([<br>            ‘GET / HTTP/1.1’,<br>            ‘User-Agent: curl/7.26.0’,<br>            ‘Host: www.baidu.com’,<br>            ‘Accept: <em>/</em>‘,<br>            ‘’,<br>            ‘’<br>        ].join(‘\n’));<br>    });</p>
+<p>client.on(‘data’, function (data) {<br>    console.log(data.toString());<br>    client.end();<br>});<br>```</p>
+<h4 id="灵机一点"><a href="#灵机一点" class="headerlink" title="灵机一点"></a>灵机一点</h4><p>使用NodeJS操作网络，特别是操作HTTP请求和响应时会遇到一些惊喜，这里对一些常见问题做解答。</p>
+<ul>
+<li>问： 为什么通过headers对象访问到的HTTP请求头或响应头字段不是驼峰的？</li>
+</ul>
+<p>答： 从规范上讲，HTTP请求头和响应头字段都应该是驼峰的。但现实是残酷的，不是每个HTTP服务端或客户端程序都严格遵循规范，所以NodeJS在处理从别的客户端或服务端收到的头字段时，都统一地转换为了小写字母格式，以便开发者能使用统一的方式来访问头字段，例如headers[‘content-length’]。</p>
+<ul>
+<li>问： 为什么http模块创建的HTTP服务器返回的响应是chunked传输方式的？</li>
+</ul>
+<p>答： 因为默认情况下，使用.writeHead方法写入响应头后，允许使用.write方法写入任意长度的响应体数据，并使用.end方法结束一个响应。由于响应体数据长度不确定，因此NodeJS自动在响应头里添加了Transfer-Encoding: chunked字段，并采用chunked传输方式。但是当响应体数据长度确定时，可使用.writeHead方法在响应头里加上Content-Length字段，这样做之后NodeJS就不会自动添加Transfer-Encoding字段和使用chunked传输方式。</p>
+<ul>
+<li>问： 为什么使用http模块发起HTTP客户端请求时，有时候会发生socket hang up错误？</li>
+</ul>
+<p>答： 发起客户端HTTP请求前需要先创建一个客户端。http模块提供了一个全局客户端http.globalAgent，可以让我们使用.request或.get方法时不用手动创建客户端。但是全局客户端默认只允许5个并发Socket连接，当某一个时刻HTTP客户端请求创建过多，超过这个数字时，就会发生socket hang up错误。解决方法也很简单，通过http.globalAgent.maxSockets属性把这个数字改大些即可。另外，https模块遇到这个问题时也一样通过https.globalAgent.maxSockets属性来处理。</p>
+<h4 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h4><ul>
+<li><p>http和https模块支持服务端模式和客户端模式两种使用方式。</p>
+</li>
+<li><p>request和response对象除了用于读写头数据外，都可以当作数据流来操作。</p>
+</li>
+<li><p>url.parse方法加上request.url属性是处理HTTP请求时的固定搭配。</p>
+</li>
+<li><p>使用zlib模块可以减少使用HTTP协议时的数据传输量。</p>
+</li>
+<li><p>通过net模块的Socket服务器与客户端可对HTTP协议做底层操作。</p>
+</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">node</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/12/14/《七天学不会的NodeJS》2/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-《七天学不会的NodeJS》1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/11/14/《七天学不会的NodeJS》1/">《七天学不会的NodeJS》1</a>
+    </h1>
+  
+
+        
+        <a href="/2018/11/14/《七天学不会的NodeJS》1/" class="archive-article-date">
+  	<time datetime="2018-11-14T01:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-14</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="NodeJs基础"><a href="#NodeJs基础" class="headerlink" title="NodeJs基础"></a>NodeJs基础</h2><h3 id="什么是NodeJS"><a href="#什么是NodeJS" class="headerlink" title="什么是NodeJS"></a>什么是NodeJS</h3><p>JS是脚本语言，脚本语言都需要一个解析器才能运行。对于写在HTML页面里的JS，浏览器充当了解析器的角色。而对于需要独立运行的JS，NodeJS就是一个解析器。  </p>
+<p>每一种解析器都是一个运行环境，会提供相应的内置对象和方法，比如运行在浏览器中的JS的用途是操作DOM，浏览器就提供了document之类的内置对象。而运行在NodeJS中的JS的用途是操作磁盘文件或搭建HTTP服务器，NodeJS就相应提供了fs、http等内置对象。  </p>
+<h3 id="有啥用处"><a href="#有啥用处" class="headerlink" title="有啥用处"></a>有啥用处</h3><p>NodeJS的目的是为了实现高性能Web服务器，着重于事件机制和异步IO模型的优越性，而不是JS。简单可至使用命令交互模式调试JS代码片段，复杂可至编写工具提升工作效率。  </p>
+<h3 id="如何安装"><a href="#如何安装" class="headerlink" title="如何安装"></a>如何安装</h3><h4 id="安装程序"><a href="#安装程序" class="headerlink" title="安装程序"></a>安装程序</h4><p>到官网<a href="https://nodejs.org/download/" target="_blank" rel="external">nodejs.org</a>下载相应的安装包，Windows用户选择.msi后缀的安装文件， Mac用户选择.pkg后缀的安装文件。</p>
+<h4 id="编译安装"><a href="#编译安装" class="headerlink" title="编译安装"></a>编译安装</h4><p>Linux系统下一般使用以下方式编译方式安装NodeJS:</p>
+<ol>
+<li>确保系统下g++版本在4.6以上，python版本在2.6以上。  </li>
+<li>从<a href="https://nodejs.org/download/" target="_blank" rel="external">nodejs.org</a>下载tar.gz后缀的NodeJS最新版源代码包并解压到某个位置。  </li>
+<li>进入解压到的目录，使用以下命令编译和安装。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ ./configure</span><br><span class="line">$ make</span><br><span class="line">$ sudo make install</span><br><span class="line">``` </span><br><span class="line">### 如何运行</span><br><span class="line">打开终端，键入node进入命令交互模式：</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>$ node</p>
+<blockquote>
+<p>console.log(‘Hello World!’);<br>Hello World!<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">运行文件，首先编写hello.js文件，然后键入node + 文件名：</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<p>$ node hello.js<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#### 权限问题</span><br><span class="line">在Linux系统下，使用NodeJS监听80或443端口提供HTTP(S)服务时需要root权限，有两种方式：  </span><br><span class="line">第一种方式是使用sudo命令运行NodeJS，通过以下命令运行的server.js中有权限使用80和443端口。一般推荐这种方式，可以保证仅为有需要的JS脚本提供root权限。</span><br></pre></td></tr></table></figure></p>
+<p>$ sudo node server.js<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">另一种方式是使用chmod +s命令让NodeJS总是以root权限运行，具体做法如下。因为这种方式让任何JS脚本都有了root权限，不太安全，因此在需要很考虑安全的系统下不推荐使用。</span><br></pre></td></tr></table></figure></p>
+<p>$ sudo chown root /usr/local/bin/node<br>$ sudo chmod +s /usr/local/bin/node<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 模块</span><br><span class="line">在NodeJS中，一般将代码合理拆分到不同的JS文件中，每一个文件就是一个模块，而文件路径就是模块名。  </span><br><span class="line">在编写每个模块时，都有require、exports、module三个预先定义好的变量可供使用。</span><br><span class="line">#### require  </span><br><span class="line">require 函数用于在当前模块中加载和使用别的模块，传入一个模块名，返回一个模块导出对象。模块名可以是相对路径或者绝对路径，模块名中的.js扩展名可以省略。举个🌰：</span><br></pre></td></tr></table></figure></p>
+<p>var foo1 = require(‘./foo’);<br>var foo2 = require(‘./foo.js’);<br>var foo3 = require(‘/home/user/foo’);<br>var foo4 = require(‘/home/user/foo.js’);<br>// foo1至foo4中保存的是同一个模块的导出对象。</p>
+<p>// 另外，可以使用以下方式加载和使用一个JSON文件。<br>var data = require(‘./data.json’);<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#### exports </span><br><span class="line">exports对象是当前模块的导出对象，用于导出模块公有方法和属性。别的模块通过require函数使用当前模块时得到的就是当前模块的exports对象。举个🌰：</span><br></pre></td></tr></table></figure></p>
+<p>exports.hello = function () {<br>    console.log(‘Hello World!’);<br>};<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#### module </span><br><span class="line">通过module对象可以访问到当前模块的一些相关信息，但最多的用途是替换当前模块的导出对象。例如模块导出对象默认是一个普通对象，如果想改成一个函数的话。举个🌰：</span><br></pre></td></tr></table></figure></p>
+<p>module.exports = function () {<br>    console.log(‘Hello World!’);<br>};<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#### 模块初始化</span><br><span class="line">#### 主模块  </span><br><span class="line">主模块负责调度组成整个程序的其它模块完成工作。例如下面的main.js:</span><br></pre></td></tr></table></figure></p>
+<p>$ node main.js<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">目录如下：</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>/home/user/hello/<ul>
+<li>util/<br>  counter.js<br>main.js<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">count.js，该模块内部定义了一个私有变量i，并在exports对象导出了一个公有方法count。:</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<p>var i = 0;</p>
+<p>function count() {<br>    return ++i;<br>}</p>
+<p>exports.count = count;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">main.js:</span><br></pre></td></tr></table></figure></p>
+<p>var counter1 = require(‘./util/counter’);<br>var counter2 = require(‘./util/counter’);</p>
+<p>console.log(counter1.count());<br>console.log(counter2.count());<br>console.log(counter2.count());<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">运行结果：</span><br></pre></td></tr></table></figure></p>
+<p>$ node main.js<br>1<br>2<br>3<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">此例说明counter.js并没有因为被require了两次而初始化两次，所有模块在执行过程中只初始化一次。</span><br><span class="line"></span><br><span class="line">#### 二进制模块</span><br><span class="line">编译好的二进制模块除了文件扩展名是.node外，和JS模块的使用方式相同。  </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## 代码组织和部署</span><br><span class="line">### 模块路径解析规则</span><br><span class="line">require函数支持斜杠（/）或盘符（C:）开头的绝对路径，也支持./开头的相对路径。另外require函数还支持第三种形式的路径，写法类似于foo/bar，规则如下：  </span><br><span class="line"></span><br><span class="line">1. 内置模块  </span><br><span class="line">不做路径解析，直接返回模块导出对象。如require(&apos;fs&apos;;)。  </span><br><span class="line"></span><br><span class="line">2. node_modules目录  </span><br><span class="line">例如某个模块的绝对路径是/home/user/hello.js，在该模块中使用require(&apos;foo/bar&apos;)方式加载模块时，则NodeJS依次尝试使用以下路径（从当前目录逐步往上找）。</span><br></pre></td></tr></table></figure></p>
+<p> /home/user/node_modules/foo/bar<br> /home/node_modules/foo/bar<br> /node_modules/foo/bar<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">3. NODE_PATH环境变量  </span><br><span class="line">与PATH环境变量类似， NodeJS 允许通过 NODE_PATH 环境变量来指定额外的模块搜索路径。 NODE_PATH 环境变量中可以多个目录路径，路径之间在 Linux 下用:分隔，在 Windows 下使用;分隔。例如定义 NODE_PATH 环境变量如下：</span><br></pre></td></tr></table></figure></p>
+<p>NODE_PATH=/home/user/lib:/home/lib<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">当使用require(&apos;foo/bar&apos;)的方式加载模块时，则NodeJS依次尝试以下路径。</span><br></pre></td></tr></table></figure></p>
+<p>/home/user/lib/foo/bar<br>/home/lib/foo/bar<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 包</span><br><span class="line">JS模块的基本单位是单个JS文件。我们可以把由多个子模块组成的大模块称做包，并把所有子模块放在同一个目录里。   </span><br><span class="line"></span><br><span class="line">组成一个包的目录结构：</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>/home/user/lib/<ul>
+<li>cat/<br>  head.js<br>  body.js<br>  main.js<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">其中 cat 包含一个包，main.js 为主模块：</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<p>var head = require(‘./head’);<br>var body = require(‘./body’);</p>
+<p>exports.create = function (name) {<br>    return {<br>        name: name,<br>        head: head.create(),<br>        body: body.create()<br>    };<br>};<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### index.js </span><br><span class="line">为了让包看起来更像模块，我们可以把模块命名为 index.js，那以下两条语句等价：</span><br></pre></td></tr></table></figure></p>
+<p>var cat = require(‘/home/user/lib/cat’);<br>var cat = require(‘/home/user/lib/cat/index’);<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### package.json  </span><br><span class="line">如果想自定义入口模块的文件名和存放位置，就需要在包目录下包含一个package.json文件，并在其中指定入口模块的路径。目录如下：</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>/home/user/lib/<ul>
+<li>cat/<ul>
+<li>doc/</li>
+</ul>
+<ul>
+<li>lib/<br>  head.js<br>  body.js<br>  main.js</li>
+</ul>
+<ul>
+<li>tests/<br>package.json<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">package.json 内容：</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>{<br>    “name”: “cat”,<br>    “main”: “./lib/main.js”<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">可通过 require(&apos;/home/user/lib/cat&apos;) 加载。</span><br><span class="line"></span><br><span class="line">### 命令行程序</span><br><span class="line">使用NodeJS编写的东西，要么是一个包，要么是一个命令行程序。</span><br><span class="line">#### Linux （没实操，先跳过吧）</span><br><span class="line">我们可以把JS文件当作shell脚本来运行，步骤如下：  </span><br><span class="line">1. 使用#!注释来指定当前脚本使用的解析器，在node-echo.js文件顶部增加以下一行注释：</span><br></pre></td></tr></table></figure></p>
+<p>#! /usr/bin/env node<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">NodeJS会忽略掉位于JS模块首行的#!注释，不必担心这行注释是非法语句。</span><br><span class="line">2. 使用以下命令赋予node-echo.js文件执行权限：</span><br></pre></td></tr></table></figure></p>
+<p>$ chmod +x /home/user/bin/node-echo.js<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">3. 在PATH环境变量中指定的某个目录下，例如在/usr/local/bin下边创建一个软链文件，文件名与我们希望使用的终端命令同名，命令如下：</span><br></pre></td></tr></table></figure></p>
+<p> $ sudo ln -s /home/user/bin/node-echo.js /usr/local/bin/node-echo<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#### Windows</span><br><span class="line">Windows下用 .cmd , 假设node-echo.js存放在C:\Users\user\bin目录，并且该目录已经添加到PATH环境变量里了。在该目录下新建一个名为node-echo.cmd的文件，内容如下：</span><br></pre></td></tr></table></figure></p>
+<p>@node “C:\User\user\bin\node-echo.js” %*<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">### 工程目录</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>/home/user/workspace/node-echo/   # 工程目录<ul>
+<li>bin/                          # 存放命令行相关代码<br>  node-echo</li>
+</ul>
+<ul>
+<li>doc/                          # 存放文档</li>
+</ul>
+<ul>
+<li>lib/                          # 存放API相关代码<br>  echo.js</li>
+<li>node_modules/                 # 存放三方包<ul>
+<li>argv/</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>tests/                        # 存放测试用例<br>package.json                    # 元数据文件<br>README.md                       # 说明文件<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">### NPM</span><br><span class="line">NPM是随同NodeJS一起安装的包管理工具，常见使用场景如下：  </span><br><span class="line">1. 允许用户从NPM服务器下载别人编写的三方包到本地使用。 </span><br><span class="line">2. 允许用户从NPM服务器下载并安装别人编写的命令行程序到本地使用。</span><br><span class="line">3. 允许用户将自己编写的包或命令行程序上传到NPM服务器供别人使用。  </span><br><span class="line"></span><br><span class="line">### 下载三方包</span><br><span class="line">到[https://www.npmjs.com/](https://www.npmjs.com/)搜索包名，然后终端打开终端下载安装包，命令如下：</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<p>$ npm install argv<br>…<br>argv@0.0.2 node_modules\argv<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">下载指定版本的话，可以在包名后边加上@&lt; version &gt;，命令如下：</span><br></pre></td></tr></table></figure></p>
+<p>$ npm install argv@0.0.1<br>…<br>argv@0.0.1 node_modules\argv<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">可以在 package.json 申明三方包依赖：</span><br></pre></td></tr></table></figure></p>
+<p>{<br>    “name”: “node-echo”,<br>    “main”: “./lib/echo.js”,<br>    “dependencies”: {<br>        “argv”: “0.0.2”<br>    }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">这样可以直接使用 npm install 批量安装三方包，包括三方包依赖的包，目录如下：</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>project/<ul>
+<li>node_modules/<ul>
+<li>node-echo/<ul>
+<li>node_modules/<ul>
+<li>argv/<br>…<br>…<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#### 安装命令行程序</span><br><span class="line">下载安装一个命令行程序的方法与三方包类似：</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>$ npm install node-echo -g<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-g表示全局安装,并且NPM会自动创建好Linux系统下需要的软链文件或Windows系统下需要的.cmd文件。</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><p>/usr/local/               # Linux系统下</p>
+<ul>
+<li>lib/node_modules/<ul>
+<li>node-echo/<br>…</li>
+</ul>
+</li>
+<li>bin/<br>  node-echo<br>  …<br>…</li>
+</ul>
+</li>
+<li><p>%APPDATA%\npm\            # Windows系统下</p>
+<ul>
+<li>node_modules\<ul>
+<li>node-echo\<br>…<br>node-echo.cmd<br>…<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 发布代码</span><br><span class="line">1. 终端运行 npm adduser 根据提示注册账号</span><br><span class="line">2. 接着编辑package.json文件，加入NPM必需的字段。接着上边node-echo的例子，package.json里必要的字段如下。</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>{<br>    “name”: “node-echo”,           # 包名，在NPM服务器上须要保持唯一<br>    “version”: “1.0.0”,            # 当前版本号<br>    “dependencies”: {              # 三方包依赖，需要指定包名和版本号<br>        “argv”: “0.0.2”<br>      },<br>    “main”: “./lib/echo.js”,       # 入口模块位置<br>    “bin” : {<br>        “node-echo”: “./bin/node-echo”      # 命令行程序名和主模块位置<br>    }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">3. 在package.json所在目录下运行npm publish发布代码了。  </span><br><span class="line"></span><br><span class="line">#### 版本号</span><br><span class="line">语义版本号分为X.Y.Z三位，分别代表主版本号、次版本号和补丁版本号。当代码变更时，版本号按以下原则更新。</span><br><span class="line">+ 如果只是修复bug，需要更新Z位。</span><br><span class="line"></span><br><span class="line">+ 如果是新增了功能，但是向下兼容，需要更新Y位。</span><br><span class="line"></span><br><span class="line">+ 如果有大变动，向下不兼容，需要更新X位。</span><br><span class="line"></span><br><span class="line">#### npm 常用命令</span><br><span class="line"></span><br><span class="line">+ NPM提供了很多命令，例如install和publish，使用npm help可查看所有命令。</span><br><span class="line"></span><br><span class="line">+ 使用npm help &lt;command&gt;可查看某条命令的详细帮助，例如npm help install。</span><br><span class="line"></span><br><span class="line">+ 在package.json所在目录下使用npm install . -g可先在本地安装当前命令行程序，可用于发布前的本地测试。</span><br><span class="line"></span><br><span class="line">+ 使用npm update &lt;package&gt;可以把当前目录下node_modules子目录里边的对应模块更新至最新版本。</span><br><span class="line"></span><br><span class="line">+ 使用npm update &lt;package&gt; -g可以把全局安装的对应命令行程序更新至最新版。</span><br><span class="line"></span><br><span class="line">+ 使用npm cache clear可以清空NPM本地缓存，用于对付使用相同版本号发布新版本代码的人。</span><br><span class="line"></span><br><span class="line">+ 使用npm unpublish &lt;package&gt;@&lt; version &gt;可以撤销发布自己发布过的某个版本代码</span><br><span class="line"></span><br><span class="line">## 文件操作</span><br><span class="line">### 开门红  </span><br><span class="line">NodeJS提供了基本的文件操作API, 像文件拷贝这种高级功能就需要自己实现。  </span><br><span class="line">#### 小文件拷贝</span><br></pre></td></tr></table></figure></p>
+<p>var fs = require(‘fs’);</p>
+<p>function copy(src, dst) {<br>    fs.writeFileSync(dst, fs.readFileSync(src));  // 读取src内容写入dst<br>}</p>
+<p>function main(argv) {<br>    copy(argv[0], argv[1]);<br>}</p>
+<p>main(process.argv.slice(2));<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">process是一个全局变量，可通过process.argv获得命令行参数。第一值表示，node的目录（安装目录或者执行目录，我这样理解），第二个值表示执行的js文件，第三个是后面携带的参数。具体参考[文档](http://nodejs.cn/api/process.html#process_process_argv)</span><br><span class="line"></span><br><span class="line">#### 大文件拷贝</span><br></pre></td></tr></table></figure></p>
+<p>var fs = require(‘fs’);</p>
+<p>function copy(src, dst) {<br>    fs.createReadStream(src).pipe(fs.createWriteStream(dst));<br>}</p>
+<p>function main(argv) {<br>    copy(argv[0], argv[1]);<br>}</p>
+<p>main(process.argv.slice(2));<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">通过数据流的方式读一点写一点。</span><br><span class="line"></span><br><span class="line">### API走马观花</span><br><span class="line">#### Buffer（数据块）</span><br><span class="line">NodeJS提供了一个与String对等的全局构造函数Buffer来提供对二进制数据的操作。除了可以读取文件得到Buffer的实例外，还能够直接构造，Buffer 类在 Node.js 中是一个全局变量。</span><br></pre></td></tr></table></figure></p>
+<p>var bin = new Buffer([ 0x68, 0x65, 0x6c, 0x6c, 0x6f ]); // 直接构造<br>bin.length;  // 可以获取长度<br>bin[0]; // =&gt; 0x68;<br>var str = bin.toString(‘utf-8’); // =&gt; “hello”<br>var bin = new Buffer(‘hello’, ‘utf-8’); // =&gt; <buffer 65="" 68="" 6c="" 6f=""><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">slice方法返回的Buffer的修改会作用于原Buffer，而js数组使用slice方法不会作用原数组。</span><br></pre></td></tr></table></figure></buffer></p>
+<p>var bin = new Buffer([ 0x68, 0x65, 0x6c, 0x6c, 0x6f ]);<br>var sub = bin.slice(2);</p>
+<p>sub[0] = 0x65;<br>console.log(bin); // =&gt; <buffer 65="" 68="" 6c="" 6f=""><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">因此要想不影响原来的Buffer，需要新建一个Buffer，通过.copy方法把原Buffer中的数据复制过去。</span><br></pre></td></tr></table></figure></buffer></p>
+<p>var bin = new Buffer([ 0x68, 0x65, 0x6c, 0x6c, 0x6f ]);<br>var dup = new Buffer(bin.length);</p>
+<p>bin.copy(dup);<br>dup[0] = 0x48;<br>console.log(bin); // =&gt; <buffer 65="" 68="" 6c="" 6f=""><br>console.log(dup); // =&gt; <buffer 48="" 65="" 6c="" 6f=""><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#### Stream（数据流）</span><br><span class="line">NodeJS中通过各种Stream来提供对数据流的操作。  </span><br><span class="line">为数据来源创建一个只读数据流，doSomething函数加上了回调，因此我们可以在处理数据前暂停数据读取，并在处理数据后继续读取数据。</span><br></pre></td></tr></table></figure></buffer></buffer></p>
+<p>var rs = fs.createReadStream(src);</p>
+<p>rs.on(‘data’, function (chunk) {<br>    rs.pause();<br>    doSomething(chunk, function () {<br>        rs.resume();<br>    });<br>});</p>
+<p>rs.on(‘end’, function () {<br>    cleanUp();<br>});<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Stream基于事件机制工作，所有Stream的实例都继承于NodeJS提供的[EventEmitter](http://nodejs.cn/api/events.html)。 </span><br><span class="line"></span><br><span class="line">实现了数据从只读数据流到只写数据流的搬运，并包括了防爆仓控制。根据.write方法的返回值来判断传入的数据是写入目标了，还是临时放在了缓存了，并根据drain事件来判断什么时候只写数据流已经将缓存中的数据写入目标，可以传入下一个待写数据了。</span><br></pre></td></tr></table></figure></p>
+<p>var rs = fs.createReadStream(src);<br>var ws = fs.createWriteStream(dst);</p>
+<p>rs.on(‘data’, function (chunk) {<br>    if (ws.write(chunk) === false) {<br>        rs.pause();<br>    }<br>});</p>
+<p>rs.on(‘end’, function () {<br>    ws.end();<br>});</p>
+<p>ws.on(‘drain’, function () {<br>    rs.resume();<br>});<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">NodeJS直接提供了.pipe方法来做这件事情，其内部实现方式与上边的代码类似。</span><br><span class="line"></span><br><span class="line">#### File System（文件系统）</span><br><span class="line">NodeJS通过fs内置模块提供对文件的操作。fs模块提供的API基本上可以分为以下三类：</span><br><span class="line">1. 文件属性读写。  </span><br><span class="line">其中常用的有fs.stat、fs.chmod、fs.chown等等。</span><br><span class="line">2. 文件内容读写。  </span><br><span class="line">其中常用的有fs.readFile、fs.readdir、fs.writeFile、fs.mkdir等等。</span><br><span class="line">3. 底层文件操作。</span><br><span class="line">其中常用的有fs.open、fs.read、fs.write、fs.close等等。</span><br><span class="line"></span><br><span class="line">上边提到的这些API都通过回调函数传递结果，例如：</span><br></pre></td></tr></table></figure></p>
+<p>fs.readFile(pathname, function (err, data) {<br>    if (err) {<br>        // Deal with error.<br>    } else {<br>        // Deal with data.<br>    }<br>});<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">基本上所有fs模块API的回调参数都有两个。第一个参数在有错误发生时等于异常对象，第二个参数始终用于返回API方法执行结果。</span><br><span class="line"></span><br><span class="line">fs模块的所有异步API都有对应的同步版本，用于无法使用异步操作时，或者同步操作更方便时的情况。同步API除了方法名的末尾多了一个Sync之外，异常对象与执行结果的传递方式也有相应变化</span><br><span class="line"></span><br><span class="line">#### Path（路径）</span><br><span class="line">* path.normalize</span><br><span class="line">将传入的路径转换为标准路径，具体讲的话，除了解析路径中的.与..外，还能去掉多余的斜杠。如果有程序需要使用路径作为某些数据的索引，但又允许用户随意输入路径时，就需要使用该方法保证路径的唯一性。</span><br></pre></td></tr></table></figure></p>
+<p>var cache = {};</p>
+<p>function store(key, value) {<br>    cache[path.normalize(key)] = value;<br>}</p>
+<p>store(‘foo/bar’, 1);<br>store(‘foo//baz//../bar’, 2);<br>console.log(cache);  // =&gt; { “foo/bar”: 2 }<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">注意： 标准化之后的路径里的斜杠在Windows系统下是\，而在Linux系统下是/。如果想保证任何系统下都使用/作为路径分隔符的话，需要用.replace(/\\/g, &apos;/&apos;)再替换一下标准路径。  </span><br><span class="line">* path.join</span><br><span class="line">将传入的多个路径拼接为标准路径。该方法可避免手工拼接路径字符串的繁琐，并且能在不同系统下正确使用相应的路径分隔符。</span><br></pre></td></tr></table></figure></p>
+<p>path.join(‘foo/‘, ‘baz/‘, ‘../bar’); // =&gt; “foo/bar”<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">* path.extname</span><br><span class="line">当我们需要根据不同文件扩展名做不同操作时，该方法就显得很好用。</span><br></pre></td></tr></table></figure></p>
+<p>path.extname(‘foo/bar.js’); // =&gt; “.js”<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">### 遍历目录</span><br><span class="line">#### 递归算法</span><br><span class="line">通过不断缩小问题的规模来解决问题:</span><br></pre></td></tr></table></figure></p>
+<p>function factorial(n) {<br>    if (n === 1) {<br>        return 1;<br>    } else {<br>        return n * factorial(n - 1);<br>    }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">陷阱： 使用递归算法编写的代码虽然简洁，但由于每递归一次就产生一次函数调用，在需要优先考虑性能时，需要把递归算法转换为循环算法，以减少函数调用次数。  </span><br><span class="line">#### 遍历算法</span><br><span class="line">目录是一个树状结构，在遍历时一般使用深度优先+先序遍历算法。深度优先，意味着到达一个节点后，首先接着遍历子节点而不是邻居节点。先序遍历，意味着首次到达了某节点就算遍历完成，而不是最后一次返回某节点才算数。因此使用这种遍历方式时，下边这棵树的遍历顺序是A &gt; B &gt; D &gt; E &gt; C &gt; F。</span><br></pre></td></tr></table></figure></p>
+<pre><code>    A
+   / \
+  B   C
+ / \   \
+D   E   F
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#### 同步遍历</span><br></pre></td></tr></table></figure>
+<p>function travel(dir, callback) {<br>    fs.readdirSync(dir).forEach(function (file) {<br>        var pathname = path.join(dir, file);</p>
+<pre><code>    if (fs.statSync(pathname).isDirectory()) {
+        travel(pathname, callback);
+    } else {
+        callback(pathname);
+    }
+});
+</code></pre><p>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">假设有如下目录：</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>/home/user/<ul>
+<li>foo/<br>  x.js</li>
+<li>bar/<br>  y.js<br>z.css<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">使用以下代码遍历该目录时，得到的输入如下:</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<p>travel(‘/home/user’, function (pathname) {<br>    console.log(pathname);<br>});</p>
+<hr>
+<p>/home/user/foo/x.js<br>/home/user/bar/y.js<br>/home/user/z.css<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#### 异步遍历</span><br><span class="line">如果读取目录或读取文件状态时使用的是异步API，目录遍历函数实现起来会有些复杂，但原理完全相同:</span><br></pre></td></tr></table></figure></p>
+<p>function travel(dir, callback, finish) {<br>    fs.readdir(dir, function (err, files) {<br>        (function next(i) {<br>            if (i &lt; files.length) {<br>                var pathname = path.join(dir, files[i]);</p>
+<pre><code>            fs.stat(pathname, function (err, stats) {
+                if (stats.isDirectory()) {
+                    travel(pathname, callback, function () {
+                        next(i + 1);
+                    });
+                } else {
+                    callback(pathname, function () {
+                        next(i + 1);
+                    });
+                }
+            });
+        } else {
+            finish &amp;&amp; finish();
+        }
+    }(0));
+});
+</code></pre><p>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">### 文本编码</span><br><span class="line">在读取不同编码的文本文件时，需要将文件内容转换为JS使用的UTF8编码字符串后才能正常处理。  </span><br><span class="line">#### BOM的移除</span><br><span class="line">BOM用于标记一个文本文件使用Unicode编码，其本身是一个Unicode字符（&quot;\uFEFF&quot;），位于文本文件头部。在不同的Unicode编码下，BOM字符对应的二进制字节如下：</span><br></pre></td></tr></table></figure></p>
+<pre><code>Bytes      Encoding
+</code></pre><hr>
+<pre><code>FE FF       UTF16BE
+FF FE       UTF16LE
+EF BB BF    UTF8
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">因此，我们可以根据文本文件头几个字节等于啥来判断文件是否包含BOM，以及使用哪种Unicode编码。但是，BOM字符虽然起到了标记文件编码的作用，其本身却不属于文件内容的一部分，如果读取文本文件时不去掉BOM。</span><br><span class="line">以下代码实现了识别和去除UTF8 BOM的功能：</span><br></pre></td></tr></table></figure>
+<p>function readText(pathname) {<br>    var bin = fs.readFileSync(pathname);</p>
+<pre><code>if (bin[0] === 0xEF &amp;&amp; bin[1] === 0xBB &amp;&amp; bin[2] === 0xBF) {
+    bin = bin.slice(3);
+}
+
+return bin.toString(&apos;utf-8&apos;);
+</code></pre><p>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#### GBK转UTF8</span><br><span class="line">GBK编码不在NodeJS自身支持范围内。因此，一般我们借助iconv-lite这个三方包来转换编码。使用NPM下载该包后，我们可以按下边方式编写一个读取GBK文本文件的函数。</span><br></pre></td></tr></table></figure></p>
+<p>var iconv = require(‘iconv-lite’);</p>
+<p>function readGBKText(pathname) {<br>    var bin = fs.readFileSync(pathname);</p>
+<pre><code>return iconv.decode(bin, &apos;gbk&apos;);
+</code></pre><p>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 单字节编码</span><br><span class="line">即使一个文本文件中有中文等字符，如果我们需要处理的字符仅在ASCII0~128范围内，比如除了注释和字符串以外的JS代码，我们就可以统一使用单字节编码来读取文件，不用关心文件的实际编码是GBK还是UTF8。以下示例说明了这种方法。</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>GBK编码源文件内容：<br> var foo = ‘中文’;</li>
+<li>对应字节：<br> 76 61 72 20 66 6F 6F 20 3D 20 27 D6 D0 CE C4 27 3B</li>
+<li>使用单字节编码读取后得到的内容：<br> var foo = ‘{乱码}{乱码}{乱码}{乱码}’;</li>
+<li>替换内容：<br> var bar = ‘{乱码}{乱码}{乱码}{乱码}’;</li>
+<li>使用单字节编码保存后对应字节：<br> 76 61 72 20 62 61 72 20 3D 20 27 D6 D0 CE C4 27 3B</li>
+<li>使用GBK编码读取后得到内容：<br> var bar = ‘中文’;<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">不管大于0xEF的单个字节在单字节编码下被解析成什么乱码字符，使用同样的单字节编码保存这些乱码字符时，背后对应的字节保持不变。</span><br><span class="line">NodeJS中自带了一种binary编码可以用来实现这个方法:</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>function replace(pathname) {<br>    var str = fs.readFileSync(pathname, ‘binary’);<br>    str = str.replace(‘foo’, ‘bar’);<br>    fs.writeFileSync(pathname, str, ‘binary’);<br>}<br>```</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">node</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/11/14/《七天学不会的NodeJS》1/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Vue学习笔记三" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -996,272 +1466,6 @@
 
 
   
-    <article id="post-关于HTTPS" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/14/关于HTTPS/">关于HTTPS</a>
-    </h1>
-  
-
-        
-        <a href="/2018/01/14/关于HTTPS/" class="archive-article-date">
-  	<time datetime="2018-01-14T13:54:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="HTTP和HTTPS的基本概念"><a href="#HTTP和HTTPS的基本概念" class="headerlink" title="HTTP和HTTPS的基本概念"></a>HTTP和HTTPS的基本概念</h2><blockquote>
-<p>HTTP: 是互联网上应用最为广泛的一种网络协议，是一个客户端和服务器端请求和应答的标准（TCP），用于从WWW服务器传输超文本到本地浏览器的传输协议，他可以说浏览器更加高效，是网络传输减少。<br>HTTPS: 是以安全为目标的HTTP通道，简单讲是HTTP的安全版，即HTTP下加入SSL层，HTTPS的安全基础是SSL，因此加密的详细内容就需要SSL。  </p>
-</blockquote>
-<h2 id="HTTP的缺点"><a href="#HTTP的缺点" class="headerlink" title="HTTP的缺点"></a>HTTP的缺点</h2><ul>
-<li>通信使用明文(不加密), 内容可能会被窃听</li>
-<li>不验证通信方的身份, 因此有可能遭遇伪装</li>
-<li>无法证明报文的完整性, 所有有可能已遭篡改  </li>
-</ul>
-<h2 id="HTTPS的作用以及与HTTP的区别"><a href="#HTTPS的作用以及与HTTP的区别" class="headerlink" title="HTTPS的作用以及与HTTP的区别"></a>HTTPS的作用以及与HTTP的区别</h2><p>HTTPS协议的主要作用可以分为两种：一种是建立一个信息安全通道，来保证数据传输的安全；另一种就是确认网站的真实性。即HTTP加上加密处理和认证以及完成性保护后即是HTTPS。<br>而HTTPS和HTTP的区别主要如下：</p>
-<ol>
-<li>https协议需要到ca申请证书，一般免费证书较少，因而需要一定费用。</li>
-<li>http是超文本传输协议，信息是明文传输，https则是具有安全性的ssl加密传输协议。</li>
-<li>http和https使用的是完全不同的连接方式，用的端口也不一样，前者是80，后者是443。</li>
-<li>http的连接很简单，是无状态的；HTTPS协议是由SSL+HTTP协议构建的可进行加密传输、身份认证的网络协议，比http协议安全。  </li>
-</ol>
-<h2 id="HTTPS的工作原理"><a href="#HTTPS的工作原理" class="headerlink" title="HTTPS的工作原理"></a>HTTPS的工作原理</h2><p>HTTPS并非是应用层的一种新协议. 只是HTTP通信接口部分用SLL(Secure Socket Layer)和TLS (Transport Layer Security) 协议替代而已.<br>通常, HTTP直接和TCP通信, 当使用SSL时, 演变成了先和SSL通信, 再由SSL和TCP通信了, 简而言之, 所谓HTTPS, 其实就是身披SSL协议的这层外壳的HTTP.<br>在采用SSL后, HTTP就拥有了HTTPS的加密, 证书和完整性的保护这些功能.<br>SSL是独立于HTTP的协议, 所有不光是HTTP协议, 其他运行在应用层的SMTP(邮件协议)和Telnet等协议均可配合SSL协议使用. 可以说SSL是当今世界上应用最广泛的网络安全技术.  </p>
-<h5 id="1-客户端发起HTTPS请求"><a href="#1-客户端发起HTTPS请求" class="headerlink" title="1.客户端发起HTTPS请求"></a>1.客户端发起HTTPS请求</h5><p>用户在浏览器里输入一个https网址，然后连接到server的443端口。  </p>
-<h5 id="2-服务端的配置"><a href="#2-服务端的配置" class="headerlink" title="2.服务端的配置"></a>2.服务端的配置</h5><p>采用HTTPS协议的服务器必须要有一套数字证书，可以自己制作，也可以向组织申请，区别就是自己颁发的证书需要客户端验证通过，才可以继续访问，而使用受信任的公司申请的证书则不会弹出提示页面。<br>这套证书其实就是一对公钥和私钥，如果对公钥和私钥不太理解，可以想象成一把钥匙和一个锁头，只是全世界只有你一个人有这把钥匙，你可以把锁头给别人，别人可以用这个锁把重要的东西锁起来，然后发给你，因为只有你一个人有这把钥匙，所以只有你才能看到被这把锁锁起来的东西。  </p>
-<h5 id="3-传送证书"><a href="#3-传送证书" class="headerlink" title="3.传送证书"></a>3.传送证书</h5><p>这个证书其实就是公钥，只是包含了很多信息，如证书的颁发机构，过期时间等等。  </p>
-<h5 id="4-客户端解析证书"><a href="#4-客户端解析证书" class="headerlink" title="4.客户端解析证书"></a>4.客户端解析证书</h5><p>这部分工作是有客户端的TLS来完成的，首先会验证公钥是否有效，比如颁发机构，过期时间等等，如果发现异常，则会弹出一个警告框，提示证书存在问题。<br>如果证书没有问题，那么就生成一个随机值，然后用证书对该随机值进行加密，就好像上面说的，把随机值用锁头锁起来，这样除非有钥匙，不然看不到被锁住的内容。  </p>
-<h5 id="5-传送加密信息"><a href="#5-传送加密信息" class="headerlink" title="5.传送加密信息"></a>5.传送加密信息</h5><p>这部分传送的是用证书加密后的随机值，目的就是让服务端得到这个随机值，以后客户端和服务端的通信就可以通过这个随机值来进行加密解密了。</p>
-<h5 id="6-服务段解密信息"><a href="#6-服务段解密信息" class="headerlink" title="6.服务段解密信息"></a>6.服务段解密信息</h5><p>服务端用私钥解密后，得到了客户端传过来的随机值(私钥)，然后把内容通过该值进行对称加密，所谓对称加密就是，将信息和私钥通过某种算法混合在一起，这样除非知道私钥，不然无法获取内容，而正好客户端和服务端都知道这个私钥，所以只要加密算法够彪悍，私钥够复杂，数据就够安全。  </p>
-<h5 id="7-传输加密后的信息"><a href="#7-传输加密后的信息" class="headerlink" title="7.传输加密后的信息"></a>7.传输加密后的信息</h5><p>这部分信息是服务段用私钥加密后的信息，可以在客户端被还原。</p>
-<h5 id="8-客户端解密信息"><a href="#8-客户端解密信息" class="headerlink" title="8.客户端解密信息"></a>8.客户端解密信息</h5><p>客户端用之前生成的私钥解密服务段传过来的信息，于是获取了解密后的内容，整个过程第三方即使监听到了数据，也束手无策。  </p>
-<h2 id="HTTPS存在的问题"><a href="#HTTPS存在的问题" class="headerlink" title="HTTPS存在的问题"></a>HTTPS存在的问题</h2><ul>
-<li>消耗更多的资源；由于HTTPS还需要做服务器,客户端双方加密及解密处理, 因此会消耗CPU和内存等硬件资源, 和HTTP通信相比, SSL通信部分消耗网络资源. 而SSL通信部分, 有因为要对通信进行处理, 所有时间上又延长了。</li>
-<li>SSL证书需要钱，功能越强大的证书费用越高，个人网站、小网站没有必要一般不会用。</li>
-<li>SSL证书通常需要绑定IP，不能在同一IP上绑定多个域名，IPv4资源不可能支撑这个消耗（SSL有扩展可以部分解决这个问题，但是比较麻烦，而且要求浏览器、操作系统支持，Windows XP就不支持这个扩展，考虑到XP的装机量，这个特性几乎没用）。 </li>
-<li>HTTPS连接缓存不如HTTP高效，大流量网站如非必要也不会采用，流量成本太高。</li>
-<li>HTTPS连接服务器端资源占用高很多，支持访客稍多的网站需要投入更大的成本，如果全部采用HTTPS，基于大部分计算资源闲置的假设的VPS的平均成本会上去。</li>
-<li>HTTPS协议握手阶段比较费时，对网站的相应速度有负面影响，如非必要，没有理由牺牲用户体验。  </li>
-</ul>
-<p>针对速度慢这样一个问题, 并没有根本性的解决方案, 我们会使用SSL加速器这种(专用服务器)硬件来改善该问题. 相对软件来讲, 能够提高数倍SSL计算速度。<br>因此, 如果是非敏感信息则使用HTTP通信, 只有在包括个人信息等敏感数据时, 才利用HTTPS加密通信, 以节省资源. 除此之外, 想要节约购买证书的开销也原因之一.</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">http</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/01/14/关于HTTPS/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-http之http状态码" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/13/http之http状态码/">http之http状态码</a>
-    </h1>
-  
-
-        
-        <a href="/2017/12/13/http之http状态码/" class="archive-article-date">
-  	<time datetime="2017-12-13T00:25:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-13</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>本文主要根据以下几点对http进行学习归纳  </p>
-<ul>
-<li>什么是http状态码</li>
-<li>http状态码的职责</li>
-<li>常见的http状态码及其含义  </li>
-</ul>
-<h2 id="什么是http状态码"><a href="#什么是http状态码" class="headerlink" title="什么是http状态码"></a>什么是http状态码</h2><p>当浏览者访问一个网页时，浏览者的浏览器会向网页所在服务器发出请求。当浏览器接收并显示网页前，此网页所在的服务器会返回一个包含HTTP状态码的信息头用以响应浏览器的请求。  </p>
-<h2 id="http状态码的职责"><a href="#http状态码的职责" class="headerlink" title="http状态码的职责"></a>http状态码的职责</h2><p>状态码的职责是当客户端向服务器发送请求时，描述返回的请求结果。借助状态码，用户可以知道服务器是正常处理了请求，还是出现了错误。  </p>
-<h2 id="常见的http状态码及其含义"><a href="#常见的http状态码及其含义" class="headerlink" title="常见的http状态码及其含义"></a>常见的http状态码及其含义</h2><table>
-<thead>
-<tr>
-<th>状态码</th>
-<th>类别</th>
-<th>原因短语</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1＊＊</td>
-<td>Informational(信息性状态码)</td>
-<td>接收的请求正在处理</td>
-</tr>
-<tr>
-<td>2＊＊</td>
-<td>Success(成功状态码)</td>
-<td>请求正常处理完毕</td>
-</tr>
-<tr>
-<td>3＊＊</td>
-<td>Redirection(重定向状态码)</td>
-<td>需要进行附加操作已完成请求</td>
-</tr>
-<tr>
-<td>4＊＊</td>
-<td>Client Error(客户端错误状态码)</td>
-<td>服务器无法处理请求</td>
-</tr>
-<tr>
-<td>5＊＊</td>
-<td>Server Error(服务器错误状态码)</td>
-<td>服务器处理请求错误  </td>
-</tr>
-</tbody>
-</table>
-<h3 id="具体的http状态码及对应含义"><a href="#具体的http状态码及对应含义" class="headerlink" title="具体的http状态码及对应含义"></a>具体的http状态码及对应含义</h3><ul>
-<li>100 客户端继续发送请求，这是临时响应的状态码。</li>
-<li>101 服务端根据客户端的请求切换协议。（只能切换到更高级的协议）</li>
-<li>102 处理将被继续执行</li>
-<li>200 服务端已成功处理了请求</li>
-<li>201 请求成功并且服务端创建了新的资源。</li>
-<li>202 服务端已接受请求但尚未处理。</li>
-<li>203 服务端已成功处理了请求但返回的信息可能来自于另一来源。</li>
-<li>204 服务端成功处理了请求但没有返回任何内容。</li>
-<li>205 服务器成功处理了请求，客户端应重置文档视图。可通过此返回码清除浏览器的表单域。</li>
-<li>206 服务器成功处理了部分GET请求。</li>
-<li>207 代表之后的消息将会是一个XML消息。</li>
-<li>300 服务器可执行多种操作。服务器可根据请求者选择一项操作，或者提供操作列表供请求者选择。</li>
-<li>301 永久移动。请求的资源已被永久的移动到新URL。今后任何新的请求都使用新的URL。</li>
-<li>302 临时移动。服务器目前从不同位置的网页响应请求，但请求者应继续使用原有位置来进行以后的请求。</li>
-<li>303 （查看其他位置） 请求者应当对不同的位置使用单独的 GET 请求来检索响应时，服务器返回此代码。</li>
-<li>304 （未修改）自从上次请求后，请求的网页未修改过。 服务器返回此响应时，不会返回网页内容。</li>
-<li>305 （使用代理） 请求者只能使用代理访问请求的网页。 如果服务器返回此响应，还表示请求者应使用代理。</li>
-<li>307 （临时重定向） 服务器目前从不同位置的网页响应请求，但请求者应继续使用原有位置来进行以后的请求。</li>
-<li>400 （错误请求） 服务器不理解请求的语法。</li>
-<li>401 （未授权） 请求要求身份验证。 对于需要登录的网页，服务器可能返回此响应。</li>
-<li>403 （禁止） 服务器拒绝请求。</li>
-<li>404 （未找到） 服务器找不到请求的网页。</li>
-<li>405 （方法禁用） 禁用请求中指定的方法。</li>
-<li>406 （不接受） 无法使用请求的内容特性响应请求的网页。</li>
-<li>407 （需要代理授权） 此状态代码与 401（未授权）类似，但指定请求者应当授权使用代理。</li>
-<li>408 （请求超时） 服务器等候请求时发生超时。</li>
-<li>409 （冲突） 服务器在完成请求时发生冲突。 服务器必须在响应中包含有关冲突的信息。</li>
-<li>410 （已删除） 如果请求的资源已永久删除，服务器就会返回此响应。</li>
-<li>411 （需要有效长度） 服务器不接受不含有效内容长度标头字段的请求。</li>
-<li>412 （未满足前提条件） 服务器未满足请求者在请求中设置的其中一个前提条件。</li>
-<li>413 （请求实体过大） 服务器无法处理请求，因为请求实体过大，超出服务器的处理能力。</li>
-<li>414 （请求的 URI 过长） 请求的 URI（通常为网址）过长，服务器无法处理。</li>
-<li>415 （不支持的媒体类型） 请求的格式不受请求页面的支持。</li>
-<li>416 （请求范围不符合要求） 如果页面无法提供请求的范围，则服务器会返回此状态代码。</li>
-<li>417 （未满足期望值） 服务器未满足”期望”请求标头字段的要求。<br>5开头（服务器错误）这些状态代码表示服务器在尝试处理请求时发生内部错误。</li>
-<li>500 （服务器内部错误） 服务器遇到错误，无法完成请求。</li>
-<li>501 （尚未实施） 服务器不具备完成请求的功能。 例如，服务器无法识别请求方法时可能会返回此代码。</li>
-<li>502 （错误网关） 服务器作为网关或代理，从上游服务器收到无效响应。</li>
-<li>503 （服务不可用） 服务器目前无法使用（由于超载或停机维护）。 通常，这只是暂时状态。</li>
-<li>504 （网关超时） 服务器作为网关或代理，但是没有及时从上游服务器收到请求。</li>
-<li>505 （HTTP 版本不受支持） 服务器不支持请求中所用的 HTTP 协议版本。</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">http</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/12/13/http之http状态码/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1364,6 +1568,10 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">http</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">node</a>
               </li>
              
               <li class="article-tag-list-item">

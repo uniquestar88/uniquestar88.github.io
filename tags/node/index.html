@@ -6,12 +6,12 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>call me 王洁</title>
+  <title>Tag: node | call me 王洁</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="没什么擅长的，但是喜欢观察人，小心点哦，哈哈。。">
 <meta property="og:type" content="website">
 <meta property="og:title" content="call me 王洁">
-<meta property="og:url" content="http://yoursite.com/page/2/index.html">
+<meta property="og:url" content="http://yoursite.com/tags/node/index.html">
 <meta property="og:site_name" content="call me 王洁">
 <meta property="og:description" content="没什么擅长的，但是喜欢观察人，小心点哦，哈哈。。">
 <meta name="twitter:card" content="summary">
@@ -150,504 +150,96 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-关于HTTPS" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
+  
     
-      <header class="article-header">
-        
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2018" class="archive-year">2018</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2018/12/14/《七天学不会的NodeJS》2/" class="archive-article-date">
+  	<time datetime="2018-12-14T01:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-14</time>
+</a>
+        </div>
+    	 
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/14/关于HTTPS/">关于HTTPS</a>
+      <a class="archive-article-title" href="/2018/12/14/《七天学不会的NodeJS》2/">《七天学不会的NodeJS》2</a>
     </h1>
   
 
-        
-        <a href="/2018/01/14/关于HTTPS/" class="archive-article-date">
-  	<time datetime="2018-01-14T13:54:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="HTTP和HTTPS的基本概念"><a href="#HTTP和HTTPS的基本概念" class="headerlink" title="HTTP和HTTPS的基本概念"></a>HTTP和HTTPS的基本概念</h2><blockquote>
-<p>HTTP: 是互联网上应用最为广泛的一种网络协议，是一个客户端和服务器端请求和应答的标准（TCP），用于从WWW服务器传输超文本到本地浏览器的传输协议，他可以说浏览器更加高效，是网络传输减少。<br>HTTPS: 是以安全为目标的HTTP通道，简单讲是HTTP的安全版，即HTTP下加入SSL层，HTTPS的安全基础是SSL，因此加密的详细内容就需要SSL。  </p>
-</blockquote>
-<h2 id="HTTP的缺点"><a href="#HTTP的缺点" class="headerlink" title="HTTP的缺点"></a>HTTP的缺点</h2><ul>
-<li>通信使用明文(不加密), 内容可能会被窃听</li>
-<li>不验证通信方的身份, 因此有可能遭遇伪装</li>
-<li>无法证明报文的完整性, 所有有可能已遭篡改  </li>
-</ul>
-<h2 id="HTTPS的作用以及与HTTP的区别"><a href="#HTTPS的作用以及与HTTP的区别" class="headerlink" title="HTTPS的作用以及与HTTP的区别"></a>HTTPS的作用以及与HTTP的区别</h2><p>HTTPS协议的主要作用可以分为两种：一种是建立一个信息安全通道，来保证数据传输的安全；另一种就是确认网站的真实性。即HTTP加上加密处理和认证以及完成性保护后即是HTTPS。<br>而HTTPS和HTTP的区别主要如下：</p>
-<ol>
-<li>https协议需要到ca申请证书，一般免费证书较少，因而需要一定费用。</li>
-<li>http是超文本传输协议，信息是明文传输，https则是具有安全性的ssl加密传输协议。</li>
-<li>http和https使用的是完全不同的连接方式，用的端口也不一样，前者是80，后者是443。</li>
-<li>http的连接很简单，是无状态的；HTTPS协议是由SSL+HTTP协议构建的可进行加密传输、身份认证的网络协议，比http协议安全。  </li>
-</ol>
-<h2 id="HTTPS的工作原理"><a href="#HTTPS的工作原理" class="headerlink" title="HTTPS的工作原理"></a>HTTPS的工作原理</h2><p>HTTPS并非是应用层的一种新协议. 只是HTTP通信接口部分用SLL(Secure Socket Layer)和TLS (Transport Layer Security) 协议替代而已.<br>通常, HTTP直接和TCP通信, 当使用SSL时, 演变成了先和SSL通信, 再由SSL和TCP通信了, 简而言之, 所谓HTTPS, 其实就是身披SSL协议的这层外壳的HTTP.<br>在采用SSL后, HTTP就拥有了HTTPS的加密, 证书和完整性的保护这些功能.<br>SSL是独立于HTTP的协议, 所有不光是HTTP协议, 其他运行在应用层的SMTP(邮件协议)和Telnet等协议均可配合SSL协议使用. 可以说SSL是当今世界上应用最广泛的网络安全技术.  </p>
-<h5 id="1-客户端发起HTTPS请求"><a href="#1-客户端发起HTTPS请求" class="headerlink" title="1.客户端发起HTTPS请求"></a>1.客户端发起HTTPS请求</h5><p>用户在浏览器里输入一个https网址，然后连接到server的443端口。  </p>
-<h5 id="2-服务端的配置"><a href="#2-服务端的配置" class="headerlink" title="2.服务端的配置"></a>2.服务端的配置</h5><p>采用HTTPS协议的服务器必须要有一套数字证书，可以自己制作，也可以向组织申请，区别就是自己颁发的证书需要客户端验证通过，才可以继续访问，而使用受信任的公司申请的证书则不会弹出提示页面。<br>这套证书其实就是一对公钥和私钥，如果对公钥和私钥不太理解，可以想象成一把钥匙和一个锁头，只是全世界只有你一个人有这把钥匙，你可以把锁头给别人，别人可以用这个锁把重要的东西锁起来，然后发给你，因为只有你一个人有这把钥匙，所以只有你才能看到被这把锁锁起来的东西。  </p>
-<h5 id="3-传送证书"><a href="#3-传送证书" class="headerlink" title="3.传送证书"></a>3.传送证书</h5><p>这个证书其实就是公钥，只是包含了很多信息，如证书的颁发机构，过期时间等等。  </p>
-<h5 id="4-客户端解析证书"><a href="#4-客户端解析证书" class="headerlink" title="4.客户端解析证书"></a>4.客户端解析证书</h5><p>这部分工作是有客户端的TLS来完成的，首先会验证公钥是否有效，比如颁发机构，过期时间等等，如果发现异常，则会弹出一个警告框，提示证书存在问题。<br>如果证书没有问题，那么就生成一个随机值，然后用证书对该随机值进行加密，就好像上面说的，把随机值用锁头锁起来，这样除非有钥匙，不然看不到被锁住的内容。  </p>
-<h5 id="5-传送加密信息"><a href="#5-传送加密信息" class="headerlink" title="5.传送加密信息"></a>5.传送加密信息</h5><p>这部分传送的是用证书加密后的随机值，目的就是让服务端得到这个随机值，以后客户端和服务端的通信就可以通过这个随机值来进行加密解密了。</p>
-<h5 id="6-服务段解密信息"><a href="#6-服务段解密信息" class="headerlink" title="6.服务段解密信息"></a>6.服务段解密信息</h5><p>服务端用私钥解密后，得到了客户端传过来的随机值(私钥)，然后把内容通过该值进行对称加密，所谓对称加密就是，将信息和私钥通过某种算法混合在一起，这样除非知道私钥，不然无法获取内容，而正好客户端和服务端都知道这个私钥，所以只要加密算法够彪悍，私钥够复杂，数据就够安全。  </p>
-<h5 id="7-传输加密后的信息"><a href="#7-传输加密后的信息" class="headerlink" title="7.传输加密后的信息"></a>7.传输加密后的信息</h5><p>这部分信息是服务段用私钥加密后的信息，可以在客户端被还原。</p>
-<h5 id="8-客户端解密信息"><a href="#8-客户端解密信息" class="headerlink" title="8.客户端解密信息"></a>8.客户端解密信息</h5><p>客户端用之前生成的私钥解密服务段传过来的信息，于是获取了解密后的内容，整个过程第三方即使监听到了数据，也束手无策。  </p>
-<h2 id="HTTPS存在的问题"><a href="#HTTPS存在的问题" class="headerlink" title="HTTPS存在的问题"></a>HTTPS存在的问题</h2><ul>
-<li>消耗更多的资源；由于HTTPS还需要做服务器,客户端双方加密及解密处理, 因此会消耗CPU和内存等硬件资源, 和HTTP通信相比, SSL通信部分消耗网络资源. 而SSL通信部分, 有因为要对通信进行处理, 所有时间上又延长了。</li>
-<li>SSL证书需要钱，功能越强大的证书费用越高，个人网站、小网站没有必要一般不会用。</li>
-<li>SSL证书通常需要绑定IP，不能在同一IP上绑定多个域名，IPv4资源不可能支撑这个消耗（SSL有扩展可以部分解决这个问题，但是比较麻烦，而且要求浏览器、操作系统支持，Windows XP就不支持这个扩展，考虑到XP的装机量，这个特性几乎没用）。 </li>
-<li>HTTPS连接缓存不如HTTP高效，大流量网站如非必要也不会采用，流量成本太高。</li>
-<li>HTTPS连接服务器端资源占用高很多，支持访客稍多的网站需要投入更大的成本，如果全部采用HTTPS，基于大部分计算资源闲置的假设的VPS的平均成本会上去。</li>
-<li>HTTPS协议握手阶段比较费时，对网站的相应速度有负面影响，如非必要，没有理由牺牲用户体验。  </li>
-</ul>
-<p>针对速度慢这样一个问题, 并没有根本性的解决方案, 我们会使用SSL加速器这种(专用服务器)硬件来改善该问题. 相对软件来讲, 能够提高数倍SSL计算速度。<br>因此, 如果是非敏感信息则使用HTTP通信, 只有在包括个人信息等敏感数据时, 才利用HTTPS加密通信, 以节省资源. 除此之外, 想要节约购买证书的开销也原因之一.</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">http</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">node</a>
         		</li>
       		
 		</ul>
 	</div>
 
-      
+          
 
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/01/14/关于HTTPS/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
+        </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
-    <article id="post-http之http状态码" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
     
-      <header class="article-header">
-        
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2018/11/14/《七天学不会的NodeJS》1/" class="archive-article-date">
+  	<time datetime="2018-11-14T01:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-14</time>
+</a>
+        </div>
+    	 
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/13/http之http状态码/">http之http状态码</a>
+      <a class="archive-article-title" href="/2018/11/14/《七天学不会的NodeJS》1/">《七天学不会的NodeJS》1</a>
     </h1>
   
 
-        
-        <a href="/2017/12/13/http之http状态码/" class="archive-article-date">
-  	<time datetime="2017-12-13T00:25:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-13</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>本文主要根据以下几点对http进行学习归纳  </p>
-<ul>
-<li>什么是http状态码</li>
-<li>http状态码的职责</li>
-<li>常见的http状态码及其含义  </li>
-</ul>
-<h2 id="什么是http状态码"><a href="#什么是http状态码" class="headerlink" title="什么是http状态码"></a>什么是http状态码</h2><p>当浏览者访问一个网页时，浏览者的浏览器会向网页所在服务器发出请求。当浏览器接收并显示网页前，此网页所在的服务器会返回一个包含HTTP状态码的信息头用以响应浏览器的请求。  </p>
-<h2 id="http状态码的职责"><a href="#http状态码的职责" class="headerlink" title="http状态码的职责"></a>http状态码的职责</h2><p>状态码的职责是当客户端向服务器发送请求时，描述返回的请求结果。借助状态码，用户可以知道服务器是正常处理了请求，还是出现了错误。  </p>
-<h2 id="常见的http状态码及其含义"><a href="#常见的http状态码及其含义" class="headerlink" title="常见的http状态码及其含义"></a>常见的http状态码及其含义</h2><table>
-<thead>
-<tr>
-<th>状态码</th>
-<th>类别</th>
-<th>原因短语</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1＊＊</td>
-<td>Informational(信息性状态码)</td>
-<td>接收的请求正在处理</td>
-</tr>
-<tr>
-<td>2＊＊</td>
-<td>Success(成功状态码)</td>
-<td>请求正常处理完毕</td>
-</tr>
-<tr>
-<td>3＊＊</td>
-<td>Redirection(重定向状态码)</td>
-<td>需要进行附加操作已完成请求</td>
-</tr>
-<tr>
-<td>4＊＊</td>
-<td>Client Error(客户端错误状态码)</td>
-<td>服务器无法处理请求</td>
-</tr>
-<tr>
-<td>5＊＊</td>
-<td>Server Error(服务器错误状态码)</td>
-<td>服务器处理请求错误  </td>
-</tr>
-</tbody>
-</table>
-<h3 id="具体的http状态码及对应含义"><a href="#具体的http状态码及对应含义" class="headerlink" title="具体的http状态码及对应含义"></a>具体的http状态码及对应含义</h3><ul>
-<li>100 客户端继续发送请求，这是临时响应的状态码。</li>
-<li>101 服务端根据客户端的请求切换协议。（只能切换到更高级的协议）</li>
-<li>102 处理将被继续执行</li>
-<li>200 服务端已成功处理了请求</li>
-<li>201 请求成功并且服务端创建了新的资源。</li>
-<li>202 服务端已接受请求但尚未处理。</li>
-<li>203 服务端已成功处理了请求但返回的信息可能来自于另一来源。</li>
-<li>204 服务端成功处理了请求但没有返回任何内容。</li>
-<li>205 服务器成功处理了请求，客户端应重置文档视图。可通过此返回码清除浏览器的表单域。</li>
-<li>206 服务器成功处理了部分GET请求。</li>
-<li>207 代表之后的消息将会是一个XML消息。</li>
-<li>300 服务器可执行多种操作。服务器可根据请求者选择一项操作，或者提供操作列表供请求者选择。</li>
-<li>301 永久移动。请求的资源已被永久的移动到新URL。今后任何新的请求都使用新的URL。</li>
-<li>302 临时移动。服务器目前从不同位置的网页响应请求，但请求者应继续使用原有位置来进行以后的请求。</li>
-<li>303 （查看其他位置） 请求者应当对不同的位置使用单独的 GET 请求来检索响应时，服务器返回此代码。</li>
-<li>304 （未修改）自从上次请求后，请求的网页未修改过。 服务器返回此响应时，不会返回网页内容。</li>
-<li>305 （使用代理） 请求者只能使用代理访问请求的网页。 如果服务器返回此响应，还表示请求者应使用代理。</li>
-<li>307 （临时重定向） 服务器目前从不同位置的网页响应请求，但请求者应继续使用原有位置来进行以后的请求。</li>
-<li>400 （错误请求） 服务器不理解请求的语法。</li>
-<li>401 （未授权） 请求要求身份验证。 对于需要登录的网页，服务器可能返回此响应。</li>
-<li>403 （禁止） 服务器拒绝请求。</li>
-<li>404 （未找到） 服务器找不到请求的网页。</li>
-<li>405 （方法禁用） 禁用请求中指定的方法。</li>
-<li>406 （不接受） 无法使用请求的内容特性响应请求的网页。</li>
-<li>407 （需要代理授权） 此状态代码与 401（未授权）类似，但指定请求者应当授权使用代理。</li>
-<li>408 （请求超时） 服务器等候请求时发生超时。</li>
-<li>409 （冲突） 服务器在完成请求时发生冲突。 服务器必须在响应中包含有关冲突的信息。</li>
-<li>410 （已删除） 如果请求的资源已永久删除，服务器就会返回此响应。</li>
-<li>411 （需要有效长度） 服务器不接受不含有效内容长度标头字段的请求。</li>
-<li>412 （未满足前提条件） 服务器未满足请求者在请求中设置的其中一个前提条件。</li>
-<li>413 （请求实体过大） 服务器无法处理请求，因为请求实体过大，超出服务器的处理能力。</li>
-<li>414 （请求的 URI 过长） 请求的 URI（通常为网址）过长，服务器无法处理。</li>
-<li>415 （不支持的媒体类型） 请求的格式不受请求页面的支持。</li>
-<li>416 （请求范围不符合要求） 如果页面无法提供请求的范围，则服务器会返回此状态代码。</li>
-<li>417 （未满足期望值） 服务器未满足”期望”请求标头字段的要求。<br>5开头（服务器错误）这些状态代码表示服务器在尝试处理请求时发生内部错误。</li>
-<li>500 （服务器内部错误） 服务器遇到错误，无法完成请求。</li>
-<li>501 （尚未实施） 服务器不具备完成请求的功能。 例如，服务器无法识别请求方法时可能会返回此代码。</li>
-<li>502 （错误网关） 服务器作为网关或代理，从上游服务器收到无效响应。</li>
-<li>503 （服务不可用） 服务器目前无法使用（由于超载或停机维护）。 通常，这只是暂时状态。</li>
-<li>504 （网关超时） 服务器作为网关或代理，但是没有及时从上游服务器收到请求。</li>
-<li>505 （HTTP 版本不受支持） 服务器不支持请求中所用的 HTTP 协议版本。</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">http</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">node</a>
         		</li>
       		
 		</ul>
 	</div>
 
-      
+          
 
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/12/13/http之http状态码/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
+        </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
-    <article id="post-javascript之事件篇" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
+  
+    </div></section>
+  
+
     
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/11/16/javascript之事件篇/">javascript之事件篇</a>
-    </h1>
-  
-
-        
-        <a href="/2017/11/16/javascript之事件篇/" class="archive-article-date">
-  	<time datetime="2017-11-16T00:02:26.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="事件相关概念"><a href="#事件相关概念" class="headerlink" title="事件相关概念"></a>事件相关概念</h3><ul>
-<li><strong>事件是与浏览器或文档交互的瞬间</strong>，如点击按钮，填写表格等，它是JS与HTML之间交互的桥梁。</li>
-<li><strong>事件类型是一个用来说明发生什么类型事件的字符串</strong>。例如mousemove”表示用户鼠标移动。  </li>
-<li><strong>事件目标是发生的事件或与之相关的对象</strong>。当讲事件时，我们必须同时指明类型和目标。例如，window上的load事件或者<button>元素的click事件。</button></li>
-<li><strong>事件处理程序或事件监听程序时处理或响应事件的函数</strong>。应用程序通过指明事件类型和事件目标，在WeLb浏览器中注册它们的事件处理程序函数。</li>
-<li><strong>事件对象是与特定事件相关且包含有关该事件的详细信息的对象</strong>。事件对象作为参数传递给事件处理程序函数（不包括IE8之前的版本，在这些浏览器中有时仅能通过全局变量event才能得到）。所有事件的对象都有用来指定事件类型的type和指定事件目标的target属性（在IE8之前版本中用srcElement而非target属性）。</li>
-<li><strong>事件传播是浏览器决定哪个对象触发其事件处理程序的过程</strong>。事件传播有两种形式，一种是事件冒泡，另一种是事件捕获。</li>
-</ul>
-<h3 id="事件类型"><a href="#事件类型" class="headerlink" title="事件类型"></a>事件类型</h3><ol>
-<li>DOM事件</li>
-<li>HTML5事件</li>
-<li>触摸屏和移动设备事件  </li>
-</ol>
-<h3 id="事件处理程序"><a href="#事件处理程序" class="headerlink" title="事件处理程序"></a>事件处理程序</h3><ul>
-<li>DOM0级模型<br>又称为原始事件模型，在该模型中，事件不会传播，即没有事件流的概念。</li>
-</ul>
-<ol>
-<li>设置javascript对象属性为事件处理程序</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var btn = document.getElementById(&apos;.btn&apos;);</span><br><span class="line">btn.onclick = function()&#123;</span><br><span class="line">    alert(&apos;hello word!&apos;)</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>缺点：每个事件目标对于每种事件类型将最多只有一种处理程序。</p>
-<ol>
-<li>设置HTML标签属性为事件处理程序<br>这种方式设置事件处理程序，html标签的属性值应该是javascript代码字符串，不应该是用大括号包围且使用function关键字的前缀；如果包含多条javascript语句，必须使用分号隔开或者断开属性值使其跨多行。</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;button&quot; onclick=&quot;alert(&apos;hello word!&apos;)&quot;&gt;</span><br></pre></td></tr></table></figure>
-<p>缺点：这种方式将 HTML 代码与 JavaScript 代码耦合在一起，不利于代码的维护，所以应该尽量避免使用这样的方式。</p>
-<ul>
-<li>DOM2级模型<br>属于W3C标准模型，现代浏览器(除IE6-8之外的浏览器)都支持该模型。在该事件模型中，一次事件共有三个过程:  </li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;title&gt;Event Bubbling Example&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;div id=&quot;myDiv&quot;&gt;Click Me&lt;/div&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
-<p><strong>事件捕获阶段</strong>(capturing phase)。事件从document一直向下传播到目标元素,  依次检查经过的节点是否绑定了事件监听函数，如果有则执行。</p>
-<blockquote>
-<p>document-&gt;html-&gt;body-&gt;div  </p>
-</blockquote>
-<p><strong>事件处理阶段</strong>(target phase)。事件到达目标元素, 触发目标元素的监听函数。  </p>
-<p><strong>事件冒泡阶段</strong>(bubbling phase)。事件从目标元素冒泡到document, 依次检查经过的节点是否绑定了事件监听函数，如果有则执行。  </p>
-<blockquote>
-<p>div-&gt;body-&gt;html-&gt;document  </p>
-<h4 id="addEventListener"><a href="#addEventListener" class="headerlink" title="addEventListener()"></a>addEventListener()</h4><p>addEventListener()接受三个参数，第一个是注册处理程序的类型；第二个是指定类型的事件发生时应该调用的函数；第三个是布尔值，通常情况下会给这个参数传递false，如果相反传递了true，那么函数将注册为捕获事件处理程序，并在事件不同的调用阶段调用。 </p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">var btn = document.getElementById(&apos;.btn&apos;),</span><br><span class="line">    showMessage = function()&#123;</span><br><span class="line">        alert(&apos;again...&apos;)</span><br><span class="line">    &#125;;</span><br><span class="line">btn.onclick = function()&#123; </span><br><span class="line">    alert(&apos;hello word !&apos;);</span><br><span class="line">&#125;</span><br><span class="line">//事件绑定监听函数</span><br><span class="line">btn.addEventListener(‘click’, showMessage, false);</span><br><span class="line">//事件移除监听函数</span><br><span class="line">btn.removeEventListener(‘click’, showMessage &#125;, false);</span><br><span class="line">```  </span><br><span class="line">能通过多次调用addEventListener()为同一个对象注册同一事件类型的多个处理程序函数。当对象上发生事件时，所以该件事件类型的注册处理程序都会按照注册的顺序调用。使用相同的参数在在同一个对象上多次调用addEventListener()是没用的，处理程序仍然只注册一次，同时重复调用也不会改变调用程序处理程序的顺序。</span><br><span class="line"></span><br><span class="line">- IE事件模型</span><br><span class="line">#### attachEvent()和detachEvent()的工作原理与addEventListener()和removeEventListener()类似，但有如下例外：</span><br><span class="line">1. IE事件模型不支持事件捕获，所以attachEvent()和detachEvent()只有两个参数：事件类型和处理程序函数。</span><br><span class="line">2. IE方法的第一参数使用了带&apos;on&apos;前缀的事件处理程序属性名。</span><br><span class="line">3. attachEvent()允许相同的事件处理程序函数注册多次。注册函数的调用次数和注册次数一样。  </span><br><span class="line">### 事件对象  </span><br><span class="line">下面介绍一些比较常用的属性和方法。    </span><br><span class="line"></span><br><span class="line">target、 srcElement、 currentTarget 和 relatedTarget、fromElement、 toElement  </span><br><span class="line">&gt; - target 与 srcElement 完全相同； </span><br><span class="line">&gt; - target 指触发事件的元素， currentTarget 指事件所绑定的元素；</span><br><span class="line">&gt; - relatedTarget： 与事件的目标节点相关的节点。对于 mouseover 事件来说，该属性是鼠标指针移到目标节点上时所离开的那个节点。对于 mouseout 事件来说，该属性是离开目标时，鼠标指针进入的节点。对于其他类型的事件来说，这个属性没有用；</span><br><span class="line">&gt; - fromElement 和 toElement 仅仅对于 mouseover 和 mouseout 事件有效。 </span><br><span class="line"></span><br><span class="line">clientX/Y、 screenX/Y、 pageX/Y、 offsetX/Y </span><br><span class="line">&gt; - offsetX/Y： 点击位置相对于所处元素左上角的位置；</span><br><span class="line">&gt; - clientX/Y： 点击位置相对于浏览器内容区域左上角的位置；</span><br><span class="line">&gt; - screenX/Y： 点击位置相对于屏幕左上角的位置；</span><br><span class="line">&gt; - pageX/Y： 点击位置相对整张页面左上角的位置；</span><br><span class="line">&gt; - pageX/Y 与 clientX/Y 一般情况下会相同，只有出现滚动条时才不一样。  </span><br><span class="line"></span><br><span class="line">altKey、 ctrlKey、 shiftKey</span><br><span class="line">&gt; - altKey： 返回当事件被触发时，&quot;ALT&quot; 是否被按下；</span><br><span class="line">&gt; - ctrlKey： 返回当事件被触发时，&quot;CTRL&quot; 键是否被按下；</span><br><span class="line">&gt; - shiftKey： 返回当事件被触发时，&quot;SHIFT&quot; 键是否被按下；  </span><br><span class="line"></span><br><span class="line">其他属性</span><br><span class="line">&gt; - type： 返回当前 Event 对象表示的事件的名称</span><br><span class="line">&gt; - bubbles： 返回布尔值，指示事件是否是起泡事件类型；</span><br><span class="line">&gt; - cancelable： 返回布尔值，指示事件是否可拥可取消的默认动作；</span><br><span class="line">&gt; - eventPhase： 返回事件传播的当前阶段，有三个值： Event.CAPTURING_PHASE、 Event.AT_TARGET、 Event.BUBBLING_PHASE，对应的值为 1、2、3，分别表示捕获阶段、正常事件派发和起泡阶段；</span><br><span class="line">&gt; - path： 冒泡阶段经过的节点；  </span><br><span class="line"></span><br><span class="line">方法</span><br><span class="line">&gt; - preventDefault()： 通知浏览器不要执行与事件关联的默认动作；</span><br><span class="line">&gt; - stopPropagation()： 阻止冒泡；  </span><br><span class="line"></span><br><span class="line">### Event Wrapper</span><br></pre></td></tr></table></figure>
-<p>var eventUtils={<br>     // 添加句柄<br>     addHandler:function(element,type,handler){<br>       if(element.addEventListener){<br>         element.addEventListener(type,handler,false);<br>       }else if(element.attachEvent){<br>         element.attachEvent(‘on’+type,handler);<br>       }else{<br>         element[‘on’+type]=handler;<br>       }<br>     },<br>     // 删除句柄<br>     removeHandler:function(element,type,handler){<br>       if(element.removeEventListener){<br>         element.removeEventListener(type,handler,false);<br>       }else if(element.detachEvent){<br>         element.detachEvent(‘on’+type,handler);<br>       }else{<br>         element[‘on’+type]=null;<br>       }<br>     },<br>    //获取事件对象<br>    //IE模型中event是一个全局唯一的对象绑定在window对象上<br>    getEvent:function(event){<br>       return event?event:window.event;<br>    },<br>    //获取类型<br>    getType:function(event){<br>        return event.type;<br>    },<br>    getElement:function(event){<br>        return event.target || event.srcElement;<br>    },<br>    //阻止默认事件<br>    preventDefault:function(event){<br>        if(event.preventDefault){<br>         event.preventDefault();<br>        }else{<br>         event.returnValue=false;<br>        }<br>    },<br>    //阻止冒泡<br>   stopPropagation:function(event){<br>       if(event.stopPropagation){<br>         event.stopPropagation();<br>       }else{<br>         event.cancelBubble=true;<br>        }<br>   }<br>  }<br>```</p>
-<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>事件是将 JavaScript 与网页联系在一起的主要方式。DOM3 级事件规范和 HTML5 定义了常见的大多数事件。即使有规范定义了基本事件，但很多浏览器仍然在规范之外实现了自己的专有事件，从而为开发人员提供更多掌握用户交互的手段。有些专有事件与特定设备关联，例如移动 Safari 中的 orientationchange 事件就是特定关联 iOS 设备的。</p>
-<p>在使用事件时，需要考虑如下一些内存与性能方面的问题。</p>
-<ul>
-<li>有必要限制一个页面中事件处理程序的数量，数量太多会导致占用大量内存，而且也会让用户感觉页面反应不够灵敏。</li>
-<li>建立在事件冒泡机制之上的事件委托技术，可以有效地减少事件处理程序的数量。</li>
-<li>建议在浏览器卸载页面之前移除页面中的所有事件处理程序。</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">js基础</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/11/16/javascript之事件篇/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-201711/javascript之this篇" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/11/12/201711/javascript之this篇/">javascript之this篇</a>
-    </h1>
-  
-
-        
-        <a href="/2017/11/12/201711/javascript之this篇/" class="archive-article-date">
-  	<time datetime="2017-11-12T00:02:26.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>开门见山，下面我们直入正题，为大家介绍一下关于javascript的this这一指向，首先我想用一句话来概括js中关于this的指向问题：==this它其实既不指向函数自身也不指向函数的词法作用域，this实际上是在函数被调用时发生的绑定，它指向什么完全取决于函数在哪里被调用。==</p>
-<p>在正常情况下，下面我们通过绑定的规则把this分为四个规则来介绍：</p>
-<h4 id="1、默认绑定（全局上下文"><a href="#1、默认绑定（全局上下文" class="headerlink" title="1、默认绑定（全局上下文)"></a>1、默认绑定（全局上下文)</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function foo()&#123;</span><br><span class="line">     //&quot;use strict&quot;;</span><br><span class="line">     console.log(this.a);</span><br><span class="line">&#125;</span><br><span class="line">var a = 2;</span><br><span class="line">foo();   // 2</span><br></pre></td></tr></table></figure>
-<h4 id="2、隐式绑定-作为对象的方法调用，闭包"><a href="#2、隐式绑定-作为对象的方法调用，闭包" class="headerlink" title="2、隐式绑定(作为对象的方法调用，闭包)"></a>2、隐式绑定(作为对象的方法调用，闭包)</h4><h5 id="A、作为对象的方法调用"><a href="#A、作为对象的方法调用" class="headerlink" title="A、作为对象的方法调用"></a>A、作为对象的方法调用</h5><p>demo1:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function foo()&#123;</span><br><span class="line">     console.log( this.a );</span><br><span class="line">&#125;</span><br><span class="line">var obj = &#123;</span><br><span class="line">     a: 2,</span><br><span class="line">     foo: foo</span><br><span class="line">&#125;;</span><br><span class="line">obj.foo();  //2</span><br></pre></td></tr></table></figure>
-<p>demo2:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">function foo()&#123;</span><br><span class="line">     console.log( this.a );</span><br><span class="line">&#125;</span><br><span class="line">var obj2 = &#123;</span><br><span class="line">     a: 42,</span><br><span class="line">     foo: foo</span><br><span class="line">&#125;;</span><br><span class="line">var obj1 = &#123;</span><br><span class="line">     a:2,</span><br><span class="line">     obj2: obj2</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">obj1.obj2.foo();  //??</span><br></pre></td></tr></table></figure>
-<p><strong>注：对象属性引用链中只有上一层或者说最后一层在调用的位置中起作用</strong></p>
-<h5 id="B、闭包（内部函数）"><a href="#B、闭包（内部函数）" class="headerlink" title="B、闭包（内部函数）"></a>B、闭包（内部函数）</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var a = &apos;foo&apos;;</span><br><span class="line">var person = &#123;</span><br><span class="line">     a: &apos;bar&apos;,</span><br><span class="line">     hello: function( sth )&#123;</span><br><span class="line">         var sayHello = function() &#123;</span><br><span class="line">               console.log( this.a +&apos;says&apos; +sth );</span><br><span class="line">          &#125;;</span><br><span class="line">          sayHello(sth);</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br><span class="line">person.hello(&apos;hello&apos;);  //??</span><br></pre></td></tr></table></figure>
-<p>这里this的指向跟闭包没有关系，闭包针对于变量来说的。sayHello function is being invoked as a standalone function not attached to any object, and this will refer to the global object.</p>
-<h5 id="C、隐式丢失"><a href="#C、隐式丢失" class="headerlink" title="C、隐式丢失"></a>C、隐式丢失</h5><h6 id="a、闭包（如上）"><a href="#a、闭包（如上）" class="headerlink" title="a、闭包（如上）"></a>a、闭包（如上）</h6><h6 id="b、传入回调函数时"><a href="#b、传入回调函数时" class="headerlink" title="b、传入回调函数时"></a>b、传入回调函数时</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">function foo()&#123;</span><br><span class="line">     console.log( this.a );</span><br><span class="line">&#125;</span><br><span class="line">function doFoo( fn )&#123;</span><br><span class="line">     //fn其实引用的是foo</span><br><span class="line">     fn();  //&lt;-调用位置</span><br><span class="line">&#125;</span><br><span class="line">var obj = &#123;</span><br><span class="line">     a: 2,</span><br><span class="line">     foo: foo</span><br><span class="line">&#125;;</span><br><span class="line">var a = &quot;global a&quot;;</span><br><span class="line">doFoo( obj.foo );  //??</span><br><span class="line">//setTimeout(obj.foo,100); //??</span><br></pre></td></tr></table></figure>
-<p><strong>注：参数传递其实是一种隐式赋值，所以我们传入函数时也会被隐式赋值，因此应用了默认绑定，就是绑定到全局中去。</strong></p>
-<h4 id="3、显式绑定-使用call与apply设置this"><a href="#3、显式绑定-使用call与apply设置this" class="headerlink" title="3、显式绑定(使用call与apply设置this)"></a>3、显式绑定(使用call与apply设置this)</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function foo()&#123;</span><br><span class="line">     console.log( this.a );</span><br><span class="line">&#125;</span><br><span class="line">var obj = &#123;</span><br><span class="line">     a: 2</span><br><span class="line">&#125;;</span><br><span class="line">foo.call( obj ); //??</span><br></pre></td></tr></table></figure>
-<h5 id="A、硬绑定"><a href="#A、硬绑定" class="headerlink" title="A、硬绑定"></a>A、硬绑定</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">function foo()&#123;</span><br><span class="line">     console.log( this.a );</span><br><span class="line">&#125;</span><br><span class="line">var obj = &#123;</span><br><span class="line">     a:2</span><br><span class="line">&#125;;</span><br><span class="line">var bar = function()&#123;</span><br><span class="line">     foo.call( obj );</span><br><span class="line">&#125;;</span><br><span class="line">bar();  //??</span><br><span class="line">setTimeout( bar,100 );  //??</span><br><span class="line"></span><br><span class="line">//硬绑定的bar可能or不可能再修改它的this呢？？？</span><br><span class="line">bar.call( window ); //??</span><br></pre></td></tr></table></figure>
-<p><strong>注：Function.prototype.bind有兴趣可以自己去了解，意思差不多</strong></p>
-<h4 id="4、new绑定"><a href="#4、new绑定" class="headerlink" title="4、new绑定"></a>4、new绑定</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function foo(a)&#123;</span><br><span class="line">  this.a = a;</span><br><span class="line">&#125;</span><br><span class="line">var bar= new foo(2);</span><br><span class="line">console.log(bar.a);  //??</span><br></pre></td></tr></table></figure>
-<p>以上四种就是正常情况下的四个判断规则啦，那么有正常的那也就有所例外嘛？是的，你没猜错，真的有例外。</p>
-<h5 id="1、当在默认使用call-apply-bind时把null或者undefined作为this的绑定对象传入呢？？"><a href="#1、当在默认使用call-apply-bind时把null或者undefined作为this的绑定对象传入呢？？" class="headerlink" title="1、当在默认使用call,apply,bind时把null或者undefined作为this的绑定对象传入呢？？"></a>1、当在默认使用call,apply,bind时把null或者undefined作为this的绑定对象传入呢？？</h5><h5 id="2、间接引用？"><a href="#2、间接引用？" class="headerlink" title="2、间接引用？"></a>2、间接引用？</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function foo()&#123;</span><br><span class="line">     console.log( this.a );</span><br><span class="line">&#125;</span><br><span class="line">var a =2;</span><br><span class="line">var o = &#123; a: 3,foo: foo &#125;;</span><br><span class="line">var p = &#123; a: 4 &#125;;</span><br><span class="line">o.foo();  //3</span><br><span class="line">(p.foo() = o.foo)();  //????</span><br></pre></td></tr></table></figure>
-<h5 id="3、软绑定？"><a href="#3、软绑定？" class="headerlink" title="3、软绑定？"></a>3、软绑定？</h5><p>哦，对了，还有一个差点忘记了，就是关于ES6的箭头函数啦。<br>想必聪明机智的你看完下面的这两个函数就会知道我要讲什么了。<br>es6 demo:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function foo()&#123;</span><br><span class="line">     setTimeout( () =&gt; &#123;</span><br><span class="line">          //这里的this在词法上继承自foo();</span><br><span class="line">          console.log( this.a );</span><br><span class="line">     &#125;,100);</span><br><span class="line">&#125;</span><br><span class="line">var obj = &#123;</span><br><span class="line">     a: 2</span><br><span class="line">&#125;;</span><br><span class="line">foo.call( obj ); //??</span><br></pre></td></tr></table></figure>
-<p>非es6 demo:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function foo()&#123;</span><br><span class="line">     var self = this;</span><br><span class="line">        setTimeout(function()&#123;</span><br><span class="line">          console.log(self.a);</span><br><span class="line">     &#125;,100)</span><br><span class="line">&#125;</span><br><span class="line">var obj = &#123;</span><br><span class="line">     a: 2</span><br><span class="line">&#125;;</span><br><span class="line">foo.call( obj ); //??</span><br></pre></td></tr></table></figure>
-<h4 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h4><p> 以下是根据正常情况下按照优先级排列的四条规则来判断this的绑定对象：</p>
-<ul>
-<li>1、由new调用？绑定到新建的对象</li>
-<li>2、由call或者apply(或者bind)调用？绑定到指定的对象</li>
-<li>3、由上下文对象调用？绑定到那个上下文对象（就近原则）</li>
-<li>4、默认：在严格模式下绑定到undefined,否则绑定到全局对象</li>
-<li>还有一些调用可能在无意中使用了默认绑定规则；</li>
-<li>还有就是es6的箭头函数并不会使用以上四条规则，而是根据当前的词法作用域来决定this,具体来说，就是会继承外层函数调用的this绑定。</li>
-</ul>
-<p>第一次整理这种关于技术的文章，各位将就着看，欢迎批评指正哦！附上美女高清图一张。。（文件过大，无法预览）</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">js基础</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/11/12/201711/javascript之this篇/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-  
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
-    </nav>
-  
 
 
           </div>
@@ -669,10 +261,10 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
+		isHome: false,
 		isPost: false,
 		isArchive: false,
-		isTag: false,
+		isTag: true,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,

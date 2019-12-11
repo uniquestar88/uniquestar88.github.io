@@ -15,13 +15,13 @@
 <meta property="og:url" content="http://yoursite.com/2019/12/11/DNS原理入门/index.html">
 <meta property="og:site_name" content="call me 王洁">
 <meta property="og:description" content="什么是 DNS？DNS 的全称是 domain name system，即域名系统，是互联网的一项服务。实质上他是一个分布式数据库，功能是联系域名和 ip 地址。通过域名，最终得到该域名对应的 ip 地址的过程则是域名解析的过程。 DNS 组成部分DNS 由下面三个部分组成  名称解析器（resolver） 域名空间（domain name space） 名称服务器（name server）  浏">
-<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/5/27/1639fd992859d5f1?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
-<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/5/27/1639fdb27f876e0d?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
-<meta property="og:updated_time" content="2019-12-10T23:57:14.148Z">
+<meta property="og:image" content="https://img-fe.ggwan.com/images/72c329cfbe0c6b-571x118.jpg">
+<meta property="og:image" content="https://img-fe.ggwan.com/images/2afbe0d2e299ea-354x273.jpg">
+<meta property="og:updated_time" content="2019-12-11T02:30:40.673Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DNS原理入门">
 <meta name="twitter:description" content="什么是 DNS？DNS 的全称是 domain name system，即域名系统，是互联网的一项服务。实质上他是一个分布式数据库，功能是联系域名和 ip 地址。通过域名，最终得到该域名对应的 ip 地址的过程则是域名解析的过程。 DNS 组成部分DNS 由下面三个部分组成  名称解析器（resolver） 域名空间（domain name space） 名称服务器（name server）  浏">
-<meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2018/5/27/1639fd992859d5f1?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta name="twitter:image" content="https://img-fe.ggwan.com/images/72c329cfbe0c6b-571x118.jpg">
   
     <link rel="alternative" href="/atom.xml" title="call me 王洁" type="application/atom+xml">
   
@@ -189,13 +189,13 @@
 <h4 id="DNS-查询分为递归查询和迭代查询"><a href="#DNS-查询分为递归查询和迭代查询" class="headerlink" title="DNS 查询分为递归查询和迭代查询"></a>DNS 查询分为递归查询和迭代查询</h4><blockquote>
 <p>递归查询：如果主机所询问的本地域名服务器不知道被查询域名的 IP 地址，那么本地域名服务器就以 DNS 客户的身份，向其他根域名服务器继续发出查询请求报文，而不是让该主机自己进行下一步的查询。</p>
 </blockquote>
-<p><img src="https://user-gold-cdn.xitu.io/2018/5/27/1639fd992859d5f1?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="递归查询"></p>
+<p><img src="https://img-fe.ggwan.com/images/72c329cfbe0c6b-571x118.jpg" alt="递归查询"></p>
 <p>域名的层级结构如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">主机名.次级域名.顶级域名.根域名</span><br><span class="line"></span><br><span class="line"># 即</span><br><span class="line"></span><br><span class="line">host.sld.tld.root</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>迭代查询：当根域名服务器收到本地域名服务器发出的迭代查询请求报文时，要么给出所要查询的 IP 地址，要么告诉本地域名服务器：你下一步应当向哪一个域名服务器进行查询。然后让本地域名服务器进行后续的查询，而不是替本地域名服务器进行后续的查询。</p>
 </blockquote>
-<p><img src="https://user-gold-cdn.xitu.io/2018/5/27/1639fdb27f876e0d?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt=" 迭代查询"></p>
+<p><img src="https://img-fe.ggwan.com/images/2afbe0d2e299ea-354x273.jpg" alt=" 迭代查询"></p>
 <p>由于递归模式会导致 DNS 服务器流量很大，所以现在大多数采用迭代模式。</p>
 <p>总结：该文章主要介绍一些概念性的东西，欲知详情，请听下回分解！</p>
 
@@ -448,11 +448,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">js基础</a>
+                <a href="javascript:void(0)" class="js-tag color5">node</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">node</a>
+                <a href="javascript:void(0)" class="js-tag color5">js基础</a>
               </li>
             
             <div class="clearfix"></div>
